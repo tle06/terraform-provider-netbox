@@ -1,0 +1,31 @@
+name: test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  golangci-lint:
+    runs-on: ubuntu-latest
+    container: golangci/golangci-lint:v1.24
+    steps:
+    - uses: actions/checkout@v2
+    - run: golangci-lint run ./...
+
+  tfproviderlint:
+    runs-on: ubuntu-latest
+    container: bflad/tfproviderlint:0.14
+    steps:
+    - uses: actions/checkout@v2
+    - run: tfproviderlint ./...
+
+  go-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2-beta
+      with:
+        go-version: '~1.14'
+    - run: go test -v ./...
