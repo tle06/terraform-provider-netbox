@@ -40,19 +40,6 @@ func stringInSlice(valid []string) schema.SchemaValidateDiagFunc {
 	}
 }
 
-func stringIsNotEmpty(i interface{}, k cty.Path) diag.Diagnostics {
-	v, ok := i.(string)
-	if !ok {
-		return diag.Errorf("expected type of %q to be string", k)
-	}
-
-	if v == "" {
-		return diag.Errorf("expected %q to not be an empty string, got %v", k, i)
-	}
-
-	return nil
-}
-
 func isCIDR(i interface{}, k cty.Path) diag.Diagnostics {
 	v, ok := i.(string)
 	if !ok {

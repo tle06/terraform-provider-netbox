@@ -57,10 +57,10 @@ func resourceIpamPrefix() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				ValidateDiagFunc: stringInSlice([]string{
-					string(models.PrefixStatusValueActive),
-					string(models.PrefixStatusValueContainer),
-					string(models.PrefixStatusValueDeprecated),
-					string(models.PrefixStatusValueReserved),
+					models.PrefixStatusValueActive,
+					models.PrefixStatusValueContainer,
+					models.PrefixStatusValueDeprecated,
+					models.PrefixStatusValueReserved,
 				}),
 			},
 
