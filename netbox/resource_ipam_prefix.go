@@ -22,13 +22,15 @@ func resourceIpamPrefix() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"prefix": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ValidateDiagFunc: isCIDR,
 			},
 
 			"description": {
-				Type:     schema.TypeString,
-				Optional: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				ValidateDiagFunc: stringLenBetween(0, 200),
 			},
 
 			"site_id": {
@@ -54,6 +56,12 @@ func resourceIpamPrefix() *schema.Resource {
 			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ValidateDiagFunc: stringInSlice([]string{
+					string(models.PrefixStatusValueActive),
+					string(models.PrefixStatusValueContainer),
+					string(models.PrefixStatusValueDeprecated),
+					string(models.PrefixStatusValueReserved),
+				}),
 			},
 
 			"role_id": {
