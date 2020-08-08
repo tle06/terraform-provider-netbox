@@ -33,6 +33,6 @@ func testAccPreCheck(t *testing.T) {
 	}
 
 	if err := os.Getenv("NETBOX_TOKEN"); err == "" {
-		t.Fatal("NETOX_TOKEN must be set for acceptance tests")
+		t.Fatal("NETBOX_TOKEN must be set for acceptance tests")
 	}
 }
