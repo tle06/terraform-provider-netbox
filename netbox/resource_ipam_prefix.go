@@ -106,8 +106,41 @@ func resourceIpamPrefixCreate(ctx context.Context, d *schema.ResourceData, m int
 		Tags:   expandStringSlice(d.Get("tags").([]interface{})),
 	}
 
+	if v, ok := d.GetOk("description"); ok {
+		params.Data.Description = v.(string)
+	}
+
+	if v, ok := d.GetOk("site_id"); ok {
+		siteID := int64(v.(int))
+		params.Data.Site = &siteID
+	}
+
+	if v, ok := d.GetOk("vrf_id"); ok {
+		vrfID := int64(v.(int))
+		params.Data.Vrf = &vrfID
+	}
+
+	if v, ok := d.GetOk("tenant_id"); ok {
+		tenantID := int64(v.(int))
+		params.Data.Tenant = &tenantID
+	}
+
+	if v, ok := d.GetOk("vlan_id"); ok {
+		vlanID := int64(v.(int))
+		params.Data.Vlan = &vlanID
+	}
+
 	if v, ok := d.GetOk("status"); ok {
 		params.Data.Status = v.(string)
+	}
+
+	if v, ok := d.GetOk("role_id"); ok {
+		roleID := int64(v.(int))
+		params.Data.Role = &roleID
+	}
+
+	if v, ok := d.GetOk("is_pool"); ok {
+		params.Data.IsPool = v.(bool)
 	}
 
 	resp, err := c.Ipam.IpamPrefixesCreate(params, nil)
