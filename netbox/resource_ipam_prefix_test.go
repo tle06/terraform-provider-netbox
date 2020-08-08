@@ -106,7 +106,7 @@ resource "netbox_ipam_prefix" "test" {
   tags = [
     "testacc",
   ]
-  status      = "active"
+  status = "active"
 }
 `, prefix)
 }
