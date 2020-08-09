@@ -48,3 +48,7 @@ To run a subset of acceptance tests:
 ```sh
 $ TF_ACC=1 go test -v ./... -run=TestAccIpamPrefix
 ```
+
+The following environment variables must be set to run acceptance tests:
+- `NETBOX_HOST`
+- `NETBOX_TOKEN`

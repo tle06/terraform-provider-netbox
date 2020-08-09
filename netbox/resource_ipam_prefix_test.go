@@ -100,7 +100,12 @@ func testAccCheckIpamPrefixExists(n string) resource.TestCheckFunc {
 func testAccCheckIpamPrefixConfigBasic(prefix string) string {
 	return fmt.Sprintf(`
 resource "netbox_ipam_prefix" "test" {
-  prefix = "%s"
+  prefix      = "%s"
+  description = "Acceptance test"
+  is_pool     = false
+  tags = [
+    "testacc",
+  ]
   status = "active"
 }
 `, prefix)

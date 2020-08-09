@@ -20,4 +20,4 @@ resource "netbox_ipam_prefix" "example" {
 
 * `host` - (Required) The Netbox hostname to connect to. It can also be sourced from the `NETBOX_HOST` environment variable.
 
-* `token` - (Optional) The API token used to authenticate with Netbox. It can also be sourced from the `NETBOK_TOKEN` environment variable.
+* `token` - (Optional) The API token used to authenticate with Netbox. It can also be sourced from the `NETBOX_TOKEN` environment variable.
