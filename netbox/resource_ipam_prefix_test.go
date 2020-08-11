@@ -9,8 +9,8 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/netbox-community/go-netbox/netbox/client"
-	"github.com/netbox-community/go-netbox/netbox/client/ipam"
+	"github.com/innovationnorway/go-netbox/plumbing"
+	"github.com/innovationnorway/go-netbox/plumbing/ipam"
 )
 
 func TestAccIpamPrefix_basic(t *testing.T) {
@@ -32,7 +32,7 @@ func TestAccIpamPrefix_basic(t *testing.T) {
 }
 
 func testAccCheckIpamPrefixDestroy(s *terraform.State) error {
-	c := testAccProvider.Meta().(*client.NetBox)
+	c := testAccProvider.Meta().(*plumbing.Netbox)
 
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type != "netbox_ipam_prefix" {
@@ -76,7 +76,7 @@ func testAccCheckIpamPrefixExists(n string) resource.TestCheckFunc {
 			return fmt.Errorf("No Prefix ID set")
 		}
 
-		c := testAccProvider.Meta().(*client.NetBox)
+		c := testAccProvider.Meta().(*plumbing.Netbox)
 
 		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
