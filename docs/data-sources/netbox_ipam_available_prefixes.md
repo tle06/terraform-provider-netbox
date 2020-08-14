@@ -1,6 +1,6 @@
 # netbox_ipam_available_prefixes Data Source
 
-Use this data source to get available prefixes.
+Use this data source to get available child prefixes within a parent.
 
 ## Example Usage
 

@@ -37,7 +37,8 @@ func Provider() *schema.Provider {
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"netbox_ipam_prefix": resourceIpamPrefix(),
+			"netbox_ipam_available_prefix": resourceIpamAvailablePrefix(),
+			"netbox_ipam_prefix":           resourceIpamPrefix(),
 		},
 
 		ConfigureContextFunc: providerConfigure,
