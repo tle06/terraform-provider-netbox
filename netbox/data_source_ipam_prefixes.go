@@ -8,9 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/netbox-community/go-netbox/netbox/client"
-	"github.com/netbox-community/go-netbox/netbox/client/ipam"
-	"github.com/netbox-community/go-netbox/netbox/models"
+	"github.com/innovationnorway/go-netbox/models"
+	"github.com/innovationnorway/go-netbox/plumbing"
+	"github.com/innovationnorway/go-netbox/plumbing/ipam"
 )
 
 func dataSourceIpamPrefixes() *schema.Resource {
@@ -264,7 +264,7 @@ func dataSourceIpamPrefixes() *schema.Resource {
 }
 
 func dataSourceIpamPrefixesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*client.NetBox)
+	c := m.(*plumbing.Netbox)
 
 	var diags diag.Diagnostics
 

@@ -11,7 +11,7 @@ import (
 
 	runtimeclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-	"github.com/netbox-community/go-netbox/netbox/client"
+	"github.com/innovationnorway/go-netbox/plumbing"
 )
 
 func Provider() *schema.Provider {
@@ -60,7 +60,7 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	}
 
 	if u.Path == "" {
-		u.Path = client.DefaultBasePath
+		u.Path = plumbing.DefaultBasePath
 	}
 
 	t := runtimeclient.New(u.Host, u.Path, []string{u.Scheme})
@@ -71,5 +71,5 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 			fmt.Sprintf("Token %v", token))
 	}
 
-	return client.New(t, strfmt.Default), diags
+	return plumbing.New(t, strfmt.Default), diags
 }
