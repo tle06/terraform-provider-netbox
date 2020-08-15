@@ -288,6 +288,8 @@ github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 github.com/innovationnorway/go-netbox v0.1.0-alpha.1 h1:vl6VtOKarFlCorDgJrxpvUbLZaiL2oEqwOy8Ke0Q3cU=
 github.com/innovationnorway/go-netbox v0.1.0-alpha.1/go.mod h1:s1Q0zWNd7iuWu3P2nFpwnoxsU1/zu+qvLXWnQndEikg=
+github.com/innovationnorway/go-netbox v0.1.0-alpha.1.0.20200814140851-046b4df82e0c h1:dH5nwpS/5fF1DCwYlwKtHnvibUUcRFb3ehvoNATy8AI=
+github.com/innovationnorway/go-netbox v0.1.0-alpha.1.0.20200814140851-046b4df82e0c/go.mod h1:s1Q0zWNd7iuWu3P2nFpwnoxsU1/zu+qvLXWnQndEikg=
 github.com/jhump/protoreflect v1.6.0 h1:h5jfMVslIg6l29nsMs0D8Wj17RDVdNYti0vDN/PZZoE=
 github.com/jhump/protoreflect v1.6.0/go.mod h1:eaTn3RZAmMBcV0fifFvlm6VHNz3wSkYyXYWUh7ymB74=
 github.com/jmespath/go-jmespath v0.0.0-20160202185014-0b12d6b521d8/go.mod h1:Nht3zPeWKUH0NzdCt2Blrr5ys8VGpn0CEB0cQHVjt7k=
