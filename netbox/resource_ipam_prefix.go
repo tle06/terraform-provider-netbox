@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/go-openapi/runtime"
-	"github.com/innovationnorway/go-netbox/models"
-	"github.com/innovationnorway/go-netbox/plumbing"
-	"github.com/innovationnorway/go-netbox/plumbing/ipam"
+	"github.com/netbox-community/go-netbox/netbox/client"
+	"github.com/netbox-community/go-netbox/netbox/client/ipam"
+	"github.com/netbox-community/go-netbox/netbox/models"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -77,8 +77,28 @@ func resourceIpamPrefix() *schema.Resource {
 			"tags": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"slug": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"color": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
 				},
 			},
 
@@ -99,7 +119,7 @@ func resourceIpamPrefix() *schema.Resource {
 }
 
 func resourceIpamPrefixCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
@@ -111,7 +131,7 @@ func resourceIpamPrefixCreate(ctx context.Context, d *schema.ResourceData, m int
 
 	params.Data = &models.WritablePrefix{
 		Prefix: &prefix,
-		Tags:   expandStringSlice(d.Get("tags").([]interface{})),
+		Tags:   expandTags(d.Get("tags").([]interface{})),
 	}
 
 	if v, ok := d.GetOk("description"); ok {
@@ -164,7 +184,7 @@ func resourceIpamPrefixCreate(ctx context.Context, d *schema.ResourceData, m int
 }
 
 func resourceIpamPrefixRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
@@ -217,14 +237,14 @@ func resourceIpamPrefixRead(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	d.Set("is_pool", resp.Payload.IsPool)
-	d.Set("tags", resp.Payload.Tags)
+	d.Set("tags", flattenTags(resp.Payload.Tags))
 	d.Set("custom_fields", resp.Payload.CustomFields)
 
 	return diags
 }
 
 func resourceIpamPrefixUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
@@ -280,7 +300,7 @@ func resourceIpamPrefixUpdate(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	if d.HasChange("tags") {
-		params.Data.Tags = expandStringSlice(d.Get("tags").([]interface{}))
+		params.Data.Tags = expandTags(d.Get("tags").([]interface{}))
 	}
 
 	_, err = c.Ipam.IpamPrefixesPartialUpdate(params, nil)
@@ -292,7 +312,7 @@ func resourceIpamPrefixUpdate(ctx context.Context, d *schema.ResourceData, m int
 }
 
 func resourceIpamPrefixDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
@@ -314,4 +334,60 @@ func resourceIpamPrefixDelete(ctx context.Context, d *schema.ResourceData, m int
 	d.SetId("")
 
 	return diags
+}
+
+func expandTags(input []interface{}) []*models.NestedTag {
+	if len(input) == 0 {
+		return nil
+	}
+
+	results := make([]*models.NestedTag, 0)
+
+	for _, item := range input {
+		values := item.(map[string]interface{})
+		result := &models.NestedTag{}
+
+		if v, ok := values["id"]; ok {
+			result.ID = int64(v.(int))
+		}
+
+		if v, ok := values["name"]; ok {
+			name := v.(string)
+			result.Name = &name
+		}
+
+		if v, ok := values["slug"]; ok {
+			slug := v.(string)
+			result.Slug = &slug
+		}
+
+		if v, ok := values["color"]; ok {
+			result.Color = v.(string)
+		}
+
+		results = append(results, result)
+	}
+
+	return results
+}
+
+func flattenTags(input []*models.NestedTag) []interface{} {
+	if input == nil {
+		return []interface{}{}
+	}
+
+	result := make([]interface{}, 0)
+
+	for _, item := range input {
+		values := make(map[string]interface{})
+
+		values["id"] = item.ID
+		values["name"] = item.Name
+		values["slug"] = item.Slug
+		values["color"] = item.Color
+
+		result = append(result, values)
+	}
+
+	return result
 }

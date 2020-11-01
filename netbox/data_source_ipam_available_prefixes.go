@@ -2,15 +2,13 @@ package netbox
 
 import (
 	"context"
-	"strconv"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/innovationnorway/go-netbox/models"
-	"github.com/innovationnorway/go-netbox/plumbing"
-	"github.com/innovationnorway/go-netbox/plumbing/ipam"
+	"github.com/netbox-community/go-netbox/netbox/client"
+	"github.com/netbox-community/go-netbox/netbox/client/ipam"
+	"github.com/netbox-community/go-netbox/netbox/models"
 )
 
 func dataSourceIpamAvailablePrefixes() *schema.Resource {
@@ -67,13 +65,15 @@ func dataSourceIpamAvailablePrefixes() *schema.Resource {
 }
 
 func dataSourceIpamAvailablePrefixesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
+	id := d.Get("prefix_id").(int)
+
 	params := &ipam.IpamPrefixesAvailablePrefixesReadParams{
 		Context: ctx,
-		ID:      int64(d.Get("prefix_id").(int)),
+		ID:      int64(id),
 	}
 
 	resp, err := c.Ipam.IpamPrefixesAvailablePrefixesRead(params, nil)
@@ -81,7 +81,7 @@ func dataSourceIpamAvailablePrefixesRead(ctx context.Context, d *schema.Resource
 		return diag.Errorf("Unable to get available prefixes: %v", err)
 	}
 
-	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
+	d.SetId(string(id))
 	d.Set("prefixes", flattenIpamAvailablePrefixes(resp.Payload))
 
 	return diags

@@ -8,9 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/innovationnorway/go-netbox/models"
-	"github.com/innovationnorway/go-netbox/plumbing"
-	"github.com/innovationnorway/go-netbox/plumbing/ipam"
+	"github.com/netbox-community/go-netbox/netbox/client"
+	"github.com/netbox-community/go-netbox/netbox/client/ipam"
+	"github.com/netbox-community/go-netbox/netbox/models"
 )
 
 func dataSourceIpamPrefixes() *schema.Resource {
@@ -244,8 +244,25 @@ func dataSourceIpamPrefixes() *schema.Resource {
 						"tags": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem: &schema.Schema{
-								Type: schema.TypeString,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"slug": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"color": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
 							},
 						},
 
@@ -264,7 +281,7 @@ func dataSourceIpamPrefixes() *schema.Resource {
 }
 
 func dataSourceIpamPrefixesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
@@ -337,6 +354,7 @@ func dataSourceIpamPrefixesRead(ctx context.Context, d *schema.ResourceData, m i
 		return diag.Errorf("Unable to get prefixes: %v", err)
 	}
 
+	//lintignore:R017
 	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
 	d.Set("results", flattenIpamPrefixesResults(resp.Payload.Results))
 

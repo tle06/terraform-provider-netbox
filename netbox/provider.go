@@ -11,7 +11,7 @@ import (
 
 	runtimeclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-	"github.com/innovationnorway/go-netbox/plumbing"
+	"github.com/netbox-community/go-netbox/netbox/client"
 )
 
 func Provider() *schema.Provider {
@@ -39,6 +39,7 @@ func Provider() *schema.Provider {
 		ResourcesMap: map[string]*schema.Resource{
 			"netbox_ipam_available_prefix": resourceIpamAvailablePrefix(),
 			"netbox_ipam_prefix":           resourceIpamPrefix(),
+			"netbox_tag":                   resourceTag(),
 		},
 
 		ConfigureContextFunc: providerConfigure,
@@ -61,7 +62,7 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 	}
 
 	if u.Path == "" {
-		u.Path = plumbing.DefaultBasePath
+		u.Path = client.DefaultBasePath
 	}
 
 	t := runtimeclient.New(u.Host, u.Path, []string{u.Scheme})
@@ -72,5 +73,5 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}
 			fmt.Sprintf("Token %v", token))
 	}
 
-	return plumbing.New(t, strfmt.Default), diags
+	return client.New(t, strfmt.Default), diags
 }

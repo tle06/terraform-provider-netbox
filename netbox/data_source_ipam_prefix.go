@@ -6,10 +6,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/innovationnorway/go-netbox/models"
-
-	"github.com/innovationnorway/go-netbox/plumbing"
-	"github.com/innovationnorway/go-netbox/plumbing/ipam"
+	"github.com/netbox-community/go-netbox/netbox/client"
+	"github.com/netbox-community/go-netbox/netbox/client/ipam"
+	"github.com/netbox-community/go-netbox/netbox/models"
 )
 
 func dataSourceIpamPrefix() *schema.Resource {
@@ -182,8 +181,25 @@ func dataSourceIpamPrefix() *schema.Resource {
 			"tags": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"slug": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"color": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
 				},
 			},
 
@@ -199,7 +215,7 @@ func dataSourceIpamPrefix() *schema.Resource {
 }
 
 func dataSourceIpamPrefixRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
@@ -224,7 +240,7 @@ func dataSourceIpamPrefixRead(ctx context.Context, d *schema.ResourceData, m int
 	d.Set("role", flattenIpamPrefixRole(resp.Payload.Role))
 	d.Set("is_pool", resp.Payload.IsPool)
 	d.Set("description", resp.Payload.Description)
-	d.Set("tags", resp.Payload.Tags)
+	d.Set("tags", flattenTags(resp.Payload.Tags))
 	d.Set("custom_fields", resp.Payload.CustomFields)
 
 	return diags
