@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/go-openapi/runtime"
-	"github.com/innovationnorway/go-netbox/models"
-	"github.com/innovationnorway/go-netbox/plumbing"
-	"github.com/innovationnorway/go-netbox/plumbing/ipam"
+	"github.com/netbox-community/go-netbox/netbox/client"
+	"github.com/netbox-community/go-netbox/netbox/client/ipam"
+	"github.com/netbox-community/go-netbox/netbox/models"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -46,7 +46,7 @@ func resourceIpamAvailablePrefix() *schema.Resource {
 }
 
 func resourceIpamAvailablePrefixCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
@@ -73,7 +73,7 @@ func resourceIpamAvailablePrefixCreate(ctx context.Context, d *schema.ResourceDa
 }
 
 func resourceIpamAvailablePrefixRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
@@ -104,7 +104,7 @@ func resourceIpamAvailablePrefixRead(ctx context.Context, d *schema.ResourceData
 }
 
 func resourceIpamAvailablePrefixDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	c := m.(*plumbing.Netbox)
+	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
 
