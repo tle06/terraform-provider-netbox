@@ -172,7 +172,7 @@ func resourceIpamPrefixCreate(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	if v, ok := d.GetOk("custom_fields"); ok {
-		params.Data.CustomFields = v.(map[string]interface {})
+		params.Data.CustomFields = v.(map[string]interface{})
 	}
 
 	resp, err := c.Ipam.IpamPrefixesCreate(params, nil)
@@ -308,7 +308,7 @@ func resourceIpamPrefixUpdate(ctx context.Context, d *schema.ResourceData, m int
 	}
 
 	if d.HasChange("custom_fields") {
-		params.Data.CustomFields = d.Get("custom_fields").(map[string]interface {})
+		params.Data.CustomFields = d.Get("custom_fields").(map[string]interface{})
 	}
 
 	_, err = c.Ipam.IpamPrefixesPartialUpdate(params, nil)
