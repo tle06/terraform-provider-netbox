@@ -171,6 +171,10 @@ func resourceIpamPrefixCreate(ctx context.Context, d *schema.ResourceData, m int
 		params.Data.IsPool = v.(bool)
 	}
 
+	if v, ok := d.GetOk("custom_fields"); ok {
+		params.Data.CustomFields = v.(map[string]interface {})
+	}
+
 	resp, err := c.Ipam.IpamPrefixesCreate(params, nil)
 	if err != nil {
 		return diag.Errorf("Unable to create prefix: %v", err)
@@ -301,6 +305,10 @@ func resourceIpamPrefixUpdate(ctx context.Context, d *schema.ResourceData, m int
 
 	if d.HasChange("tags") {
 		params.Data.Tags = expandTags(d.Get("tags").([]interface{}))
+	}
+
+	if d.HasChange("custom_fields") {
+		params.Data.CustomFields = d.Get("custom_fields").(map[string]interface {})
 	}
 
 	_, err = c.Ipam.IpamPrefixesPartialUpdate(params, nil)
