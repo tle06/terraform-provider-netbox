@@ -6,7 +6,7 @@ require (
 	github.com/go-openapi/errors v0.19.8 // indirect
 	github.com/go-openapi/runtime v0.19.23
 	github.com/go-openapi/spec v0.19.12 // indirect
-	github.com/go-openapi/strfmt v0.19.8
+	github.com/go-openapi/strfmt v0.19.10
 	github.com/go-openapi/validate v0.19.12 // indirect
 	github.com/hashicorp/go-cty v1.4.1-0.20200414143053-d3edf31b6320
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.2.0
