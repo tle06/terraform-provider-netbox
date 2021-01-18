@@ -63,6 +63,16 @@ func dataSourceIpamPrefixes() *schema.Resource {
 				Optional: true,
 			},
 
+			"family": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+			},
+
+			"vrf_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+
 			"within": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -337,6 +347,16 @@ func dataSourceIpamPrefixesRead(ctx context.Context, d *schema.ResourceData, m i
 	if v, ok := d.GetOk("tenant"); ok {
 		tenant := v.(string)
 		params.Tenant = &tenant
+	}
+
+	if v, ok := d.GetOk("family"); ok {
+		family := v.(float64)
+		params.Family = &family
+	}
+
+	if v, ok := d.GetOk("vrf_id"); ok {
+		vrfID := v.(string)
+		params.VrfID = &vrfID
 	}
 
 	if v, ok := d.GetOk("within"); ok {

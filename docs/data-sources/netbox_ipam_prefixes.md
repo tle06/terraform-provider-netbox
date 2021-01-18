@@ -33,6 +33,10 @@ data "netbox_ipam_prefixes" "example" {
 
 * `tenant` - (Optional) - The name of a tenant.
 
+* `family` - (Optional) - A value for the address family. Possible values include: `4` and `6`.
+
+* `vrf_id` - (Optional) - The ID of the VRF.
+
 * `within` - (Optional) - A case insensitive `within` value, used to filter the results.
 
 * `within_include` - (Optional) A case insensitive `within_include` value, used to filter the results.
