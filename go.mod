@@ -3,7 +3,7 @@ module github.com/innovationnorway/terraform-provider-netbox
 go 1.14
 
 require (
-	github.com/go-openapi/runtime v0.19.24
+	github.com/go-openapi/runtime v0.19.26
 	github.com/go-openapi/spec v0.19.12 // indirect
 	github.com/go-openapi/strfmt v0.20.0
 	github.com/go-openapi/validate v0.19.12 // indirect
