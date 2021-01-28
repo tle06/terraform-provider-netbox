@@ -116,7 +116,7 @@ func flattenIpamAggregatesResults(input []*models.Aggregate) []interface{} {
 		values["family"] = flattenIpamAggregateFamily(item.Family)
 		values["prefix"] = item.Prefix
 		values["description"] = item.Description
-		
+
 		result = append(result, values)
 	}
 

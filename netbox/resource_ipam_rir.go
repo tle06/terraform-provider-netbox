@@ -29,7 +29,6 @@ func resourceIpamRir() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-
 		},
 	}
 }
