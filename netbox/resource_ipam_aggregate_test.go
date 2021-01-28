@@ -39,14 +39,14 @@ func testAccCheckIpamAggregateDestroy(s *terraform.State) error {
 			continue
 		}
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		aggregateID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamAggregatesReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      aggregateID,
 		}
 
 		resp, err := c.Ipam.IpamAggregatesRead(params, nil)
@@ -58,7 +58,7 @@ func testAccCheckIpamAggregateDestroy(s *terraform.State) error {
 			return err
 		}
 
-		return fmt.Errorf("Prefix ID still exists: %d", resp.Payload.ID)
+		return fmt.Errorf("Aggregate ID still exists: %d", resp.Payload.ID)
 	}
 
 	return nil
@@ -73,19 +73,19 @@ func testAccCheckIpamAggregateExists(n string) resource.TestCheckFunc {
 		}
 
 		if rs.Primary.ID == "" {
-			return fmt.Errorf("No Prefix ID set")
+			return fmt.Errorf("No Aggregate ID set")
 		}
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		aggregateID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamAggregatesReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      aggregateID,
 		}
 
 		_, err = c.Ipam.IpamAggregatesRead(params, nil)

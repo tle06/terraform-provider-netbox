@@ -93,7 +93,7 @@ func dataSourceIpamAggregatesRead(ctx context.Context, d *schema.ResourceData, m
 
 	resp, err := c.Ipam.IpamAggregatesList(params, nil)
 	if err != nil {
-		return diag.Errorf("Unable to get prefixes: %v", err)
+		return diag.Errorf("Unable to get aggregates: %v", err)
 	}
 
 	//lintignore:R017

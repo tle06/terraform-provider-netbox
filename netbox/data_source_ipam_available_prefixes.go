@@ -81,7 +81,7 @@ func dataSourceIpamAvailablePrefixesRead(ctx context.Context, d *schema.Resource
 		return diag.Errorf("Unable to get available prefixes: %v", err)
 	}
 
-	d.SetId(string(id))
+	d.SetId(string(rune(id)))
 	d.Set("prefixes", flattenIpamAvailablePrefixes(resp.Payload))
 
 	return diags

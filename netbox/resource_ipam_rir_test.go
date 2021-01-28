@@ -57,7 +57,7 @@ func testAccCheckIpamRirDestroy(s *terraform.State) error {
 			return err
 		}
 
-		return fmt.Errorf("Prefix ID still exists: %d", resp.Payload.ID)
+		return fmt.Errorf("RIR ID still exists: %d", resp.Payload.ID)
 	}
 
 	return nil
@@ -72,7 +72,7 @@ func testAccCheckIpamRirExists(n string) resource.TestCheckFunc {
 		}
 
 		if rs.Primary.ID == "" {
-			return fmt.Errorf("No Prefix ID set")
+			return fmt.Errorf("No RIR ID set")
 		}
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
