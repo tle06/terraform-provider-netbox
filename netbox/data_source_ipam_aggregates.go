@@ -64,7 +64,6 @@ func dataSourceIpamAggregates() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-
 					},
 				},
 			},

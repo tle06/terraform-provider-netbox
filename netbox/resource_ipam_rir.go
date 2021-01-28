@@ -22,8 +22,8 @@ func resourceIpamRir() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"name": {
-				Type:             schema.TypeString,
-				Required:         true,
+				Type:     schema.TypeString,
+				Required: true,
 			},
 			"slug": {
 				Type:     schema.TypeString,
