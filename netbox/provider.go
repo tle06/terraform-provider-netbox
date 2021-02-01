@@ -31,14 +31,17 @@ func Provider() *schema.Provider {
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
+			"netbox_ipam_aggregates":         dataSourceIpamAggregates(),
 			"netbox_ipam_available_prefixes": dataSourceIpamAvailablePrefixes(),
 			"netbox_ipam_prefix":             dataSourceIpamPrefix(),
 			"netbox_ipam_prefixes":           dataSourceIpamPrefixes(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
+			"netbox_ipam_aggregates":       resourceIpamAggregate(),
 			"netbox_ipam_available_prefix": resourceIpamAvailablePrefix(),
 			"netbox_ipam_prefix":           resourceIpamPrefix(),
+			"netbox_ipam_rir":              resourceIpamRir(),
 			"netbox_tag":                   resourceTag(),
 		},
 
