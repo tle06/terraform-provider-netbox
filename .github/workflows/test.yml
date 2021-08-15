@@ -21,12 +21,12 @@ jobs:
     container: bflad/tfproviderlint
     steps:
     - uses: actions/checkout@v2
-    - run: tfproviderlint ./...
+    - run: tfproviderlint -R014=false ./...
 
   go-test:
     runs-on: ubuntu-latest
     env:
-      TF_ACC: 1
+      TF_ACC: 0
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-go@v2
