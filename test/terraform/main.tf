@@ -92,7 +92,6 @@ resource "netbox_dcim_device" "example" {
   asset_tag = netbox_tag.tag-one.name
   cluster_id = 9
   serial = "test serial"
-  display_name = "test display"
   face = "front"
   name = "test device"
   # parent_device_id = 88
