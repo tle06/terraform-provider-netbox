@@ -79,3 +79,33 @@ resource "netbox_ipam_prefix" "example"{
   site_id = netbox_dcim_site.example.id
   
 }
+
+
+resource "netbox_dcim_device" "example" {
+  device_type_id = 11
+  device_role_id = 6
+  site_id = netbox_dcim_site.example.id
+  # tenant_id =
+  # comments =
+  # status =
+  # asset_tag =
+  # cluster_id =
+  # serial =
+  # ConfigContext =
+  # display_name =
+  # face =
+  # local_context_data =
+  # name =
+  # parent_device_id =
+  # platform_id =
+  # position_id =
+  # primary_ip =
+  # primary_ip4_id =
+  # primary_ip6_id =
+  # rack_id =
+  # vc_position_id =
+  # vc_priority_id =
+  # virtual_chassis_id =
+  # tags =
+  # custom_fields =
+}

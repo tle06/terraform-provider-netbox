@@ -45,6 +45,7 @@ func Provider() *schema.Provider {
 			"netbox_tag":                   resourceTag(),
 			"netbox_dcim_site":             resourceDcimSite(),
 			"netbox_dcim_rack":             resourceDcimRack(),
+			"netbox_dcim_device":           resourceDcimDevices(),
 		},
 
 		ConfigureContextFunc: providerConfigure,
