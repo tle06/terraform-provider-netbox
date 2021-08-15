@@ -64,7 +64,7 @@ resource "netbox_dcim_rack" "example" {
     slug = netbox_tag.tag-one.slug
   }
 
-    tags {
+  tags {
     name = netbox_tag.tag-two.name
     slug = netbox_tag.tag-two.slug
   }
@@ -77,35 +77,39 @@ resource "netbox_dcim_rack" "example" {
 resource "netbox_ipam_prefix" "example"{
   prefix = "10.0.0.0/16"
   site_id = netbox_dcim_site.example.id
+  status = "active"
   
 }
 
 
 resource "netbox_dcim_device" "example" {
-  device_type_id = 11
-  device_role_id = 6
+  device_type_id = 7
+  device_role_id = 4
   site_id = netbox_dcim_site.example.id
-  # tenant_id =
-  # comments =
-  # status =
-  # asset_tag =
-  # cluster_id =
-  # serial =
-  # config_context =
-  # display_name =
-  # face =
-  # local_context_data =
-  # name =
-  # parent_device_id =
-  # platform_id =
-  # position_id =
-  # primary_ip =
-  # primary_ip4_id =
+  tenant_id = 6
+  comments = "my comment"
+  status = "active"
+  asset_tag = netbox_tag.tag-one.name
+  cluster_id = 9
+  serial = "test serial"
+  display_name = "test display"
+  face = "front"
+  name = "test device"
+  # parent_device_id = 88
+  platform_id = 2
+  position_id = 1
+  #primary_ip = "10.0.0.1/16"
+  #primary_ip4_id = 9
   # primary_ip6_id =
-  # rack_id =
+  rack_id = netbox_dcim_rack.example.id
   # vc_position_id =
   # vc_priority_id =
   # virtual_chassis_id =
-  # tags =
-  # custom_fields =
+  tags {
+    name = netbox_tag.tag-two.name
+    slug = netbox_tag.tag-two.slug
+  }
+  custom_fields = {
+    deviceCsutomField = "deviceCustomFieldValue"
+  }
 }
