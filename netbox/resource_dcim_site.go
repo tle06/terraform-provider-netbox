@@ -44,6 +44,7 @@ func resourceDcimSite() *schema.Resource {
 					models.SiteStatusValueRetired,
 					models.SiteStatusValueStaging,
 				}),
+				Default: models.SiteStatusValueActive,
 			},
 
 			"region_id": {
