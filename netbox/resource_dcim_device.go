@@ -83,10 +83,10 @@ func resourceDcimDevices() *schema.Resource {
 			// 	Optional: true,
 			// },
 
-			"display_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
+			// "display_name": {
+			// 	Type:     schema.TypeString,
+			// 	Optional: true,
+			// },
 
 			"face": {
 				Type:     schema.TypeString,
@@ -95,7 +95,6 @@ func resourceDcimDevices() *schema.Resource {
 					models.DeviceFaceValueFront,
 					models.DeviceFaceValueRear,
 				}),
-				Default: models.DeviceFaceValueFront,
 			},
 
 			// "local_context_data": {
@@ -120,7 +119,6 @@ func resourceDcimDevices() *schema.Resource {
 			"position_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  1,
 			},
 			"primary_ip": {
 				Type:     schema.TypeString,
@@ -241,9 +239,9 @@ func resourceDcimDevicesCreate(ctx context.Context, d *schema.ResourceData, m in
 	// 	params.Data.ConfigContext = v.(map[string]string)
 	// }
 
-	if v, ok := d.GetOk("display_name"); ok {
-		params.Data.DisplayName = v.(string)
-	}
+	// if v, ok := d.GetOk("display_name"); ok {
+	// 	params.Data.DisplayName = v.(string)
+	// }
 
 	if v, ok := d.GetOk("face"); ok {
 		params.Data.Face = v.(string)
@@ -371,9 +369,9 @@ func resourceDcimDevicesRead(ctx context.Context, d *schema.ResourceData, m inte
 	// 	d.Set("config_context", resp.Payload.ConfigContext)
 	// }
 
-	if resp.Payload.DisplayName != "" {
-		d.Set("display_name", resp.Payload.DisplayName)
-	}
+	// if resp.Payload.DisplayName != "" {
+	// 	d.Set("display_name", resp.Payload.DisplayName)
+	// }
 
 	if resp.Payload.Face != nil {
 		d.Set("face", resp.Payload.Face.Value)
@@ -487,9 +485,9 @@ func resourceDcimDevicesUpdate(ctx context.Context, d *schema.ResourceData, m in
 	// 	params.Data.ConfigContext = d.Get("config_context").(map[string]string)
 	// }
 
-	if d.HasChange("display_name") {
-		params.Data.DisplayName = d.Get("display_name").(string)
-	}
+	// if d.HasChange("display_name") {
+	// 	params.Data.DisplayName = d.Get("display_name").(string)
+	// }
 
 	if d.HasChange("face") {
 		params.Data.Face = d.Get("face").(string)
