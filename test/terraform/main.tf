@@ -1,12 +1,10 @@
 resource "netbox_tag" "tag-one" {
-  provider = netbox.local # use netbox to use the cloud provider or netbox.local for the local development version
   name  = "tag one"
   slug  = "tag-one"
   color = "ff0000"
 }
 
 resource "netbox_tag" "tag-two" {
-  provider = netbox.local # use netbox to use the cloud provider or netbox.local for the local development version
   name  = "tag two"
   slug  = "tag-two"
   color = "ff0000"
@@ -14,7 +12,6 @@ resource "netbox_tag" "tag-two" {
 
 
 resource "netbox_dcim_site" "example" {
-  provider = netbox.local # use netbox to use the cloud provider or netbox.local for the local development version
   name = "mysite"
   slug = trimspace(lower(replace("mysite"," ","-")))
   region_id = 12
@@ -43,5 +40,37 @@ resource "netbox_dcim_site" "example" {
     
   custom_fields = {
     tf-test = "customFieldValue"
+  }
+}
+
+resource "netbox_dcim_rack" "example" {
+  name = "TF rack"
+  site_id = netbox_dcim_site.example.id
+  facility = "tf facility rack"
+  tenant_id = 6
+  status = "available" 
+  role_id = 2
+  serial = "test serial" 
+  asset_tag = netbox_tag.tag-one.name
+  type = "2-post-frame"
+  width = 23
+  u_height = 15
+  desc_units = true
+  outer_width = 11
+  outer_depth = 10
+  outer_unit = "mm"
+  comments = "new comment"
+  tags {
+    name = netbox_tag.tag-one.name
+    slug = netbox_tag.tag-one.slug
+  }
+
+    tags {
+    name = netbox_tag.tag-two.name
+    slug = netbox_tag.tag-two.slug
+  }
+
+  custom_fields = {
+    rackCustomField = "rackCustomeFieldValue"
   }
 }
