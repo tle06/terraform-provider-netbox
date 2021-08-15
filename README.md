@@ -75,13 +75,13 @@ Move the package to the plugin directory
 Move-Item -Path .\terraform-provider-netbox.exe -Destination "$env:APPDATA\terraform.d\plugins\terraform.example.com\local\netbox\1.0\windows_amd64" -Force
 ```
 
-Browse to the test terarform folder
+Browse to the test terraform folder
 
 ```powershell
 cd .\test\terraform\
 ```
 
-Remove `.terraform` folder and `.terraform.lock.hcl`
+Remove `.terraform` folder and `.terraform.lock.hcl` file
 
 ```powershell
 rm .\.terraform\ -Confirm:$False -Recurse; rm .\.terraform.lock.hcl -Confirm:$False
