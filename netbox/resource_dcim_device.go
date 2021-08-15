@@ -291,7 +291,7 @@ func resourceDcimDevicesCreate(ctx context.Context, d *schema.ResourceData, m in
 		vcPriorityID := int64(v.(int))
 		params.Data.VcPriority = &vcPriorityID
 	}
-	if v, ok := d.GetOk("virutal_chassis_id"); ok {
+	if v, ok := d.GetOk("virtual_chassis_id"); ok {
 		vcID := int64(v.(int))
 		params.Data.VirtualChassis = &vcID
 	}
