@@ -1,8 +1,3 @@
-resource "netbox_ipam_prefix" "example" {
-  prefix = "10.0.0.0/16"
-  status = "reserved"
-}
-
 resource "netbox_tag" "tag-one" {
   name  = "tag one"
   slug  = "tag-one"
