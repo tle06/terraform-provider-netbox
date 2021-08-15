@@ -422,7 +422,7 @@ func resourceDcimDevicesRead(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	if resp.Payload.VirtualChassis != nil {
-		d.Set("virtual_chassis_id", resp.Payload.VirtualChassis)
+		d.Set("virtual_chassis_id", resp.Payload.VirtualChassis.ID)
 	}
 
 	d.Set("tags", flattenTags(resp.Payload.Tags))
