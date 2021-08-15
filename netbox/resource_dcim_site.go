@@ -447,7 +447,7 @@ func resourceDcimSiteUpdate(ctx context.Context, d *schema.ResourceData, m inter
 		return diag.Errorf("Unable to update site: %v", err)
 	}
 
-	return resourceIpamPrefixRead(ctx, d, m)
+	return resourceDcimSiteRead(ctx, d, m)
 }
 
 func resourceDcimSiteDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

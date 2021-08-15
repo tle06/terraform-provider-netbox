@@ -38,3 +38,4 @@ website/vendor
 terraform.tfstate
 terraform.tfstate.backup
 terraform-provider-netbox.exe
+.env

@@ -5,6 +5,14 @@ Use this provider to manage [Netbox](https://netbox.readthedocs.io/) resources.
 ## Example Usage
 
 ```hcl
+terraform {
+  required_providers {
+    netbox = {
+      source = "tle06/netbox"
+    }
+  }
+}
+
 provider "netbox" {
   host  = "http://localhost:8000"
   token = "66a48ac409ec56b3f345eee3d10a42fa2fc1b8b9"
