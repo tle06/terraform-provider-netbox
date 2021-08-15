@@ -1,10 +1,12 @@
 resource "netbox_tag" "tag-one" {
+  provider = netbox.local
   name  = "tag one"
   slug  = "tag-one"
   color = "ff0000"
 }
 
 resource "netbox_tag" "tag-two" {
+  provider = netbox.local
   name  = "tag two"
   slug  = "tag-two"
   color = "ff0000"
@@ -12,8 +14,9 @@ resource "netbox_tag" "tag-two" {
 
 
 resource "netbox_dcim_site" "example" {
-  name = "test tf provider"
-  slug = trimspace(lower(replace("test tf provider"," ","-")))
+  provider = netbox.local
+  name = "mysite"
+  slug = trimspace(lower(replace("mysite"," ","-")))
   region_id = 12
   status = "planned"
   tenant_id = 6
