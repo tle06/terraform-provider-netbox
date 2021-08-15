@@ -78,7 +78,7 @@ func resourceDcimDevices() *schema.Resource {
 				ValidateDiagFunc: stringLenBetween(0, 50),
 			},
 
-			"ConfigContext": {
+			"config_context": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},

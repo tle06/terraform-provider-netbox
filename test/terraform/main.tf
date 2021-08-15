@@ -91,7 +91,7 @@ resource "netbox_dcim_device" "example" {
   # asset_tag =
   # cluster_id =
   # serial =
-  # ConfigContext =
+  # config_context =
   # display_name =
   # face =
   # local_context_data =
