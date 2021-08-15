@@ -81,6 +81,12 @@ Browse to the test terarform folder
 cd .\test\terraform\
 ```
 
+Remove `.terraform` folder and `.terraform.lock.hcl`
+
+```powershell
+rm .\.terraform\ -Confirm:$False -Recurse; rm .\.terraform.lock.hcl -Confirm:$False
+```
+
 Terraform init
 
 ```powershell
