@@ -10,7 +10,6 @@ resource "netbox_tag" "tag-two" {
   color = "ff0000"
 }
 
-
 resource "netbox_dcim_site" "example" {
   name = "mysite"
   slug = trimspace(lower(replace("mysite"," ","-")))
@@ -65,12 +64,51 @@ resource "netbox_dcim_rack" "example" {
     slug = netbox_tag.tag-one.slug
   }
 
-    tags {
+  tags {
     name = netbox_tag.tag-two.name
     slug = netbox_tag.tag-two.slug
   }
 
   custom_fields = {
     rackCustomField = "rackCustomeFieldValue"
+  }
+}
+
+resource "netbox_ipam_prefix" "example"{
+  prefix = "10.0.0.0/16"
+  site_id = netbox_dcim_site.example.id
+  status = "active"
+  
+}
+
+
+resource "netbox_dcim_device" "example" {
+  device_type_id = 7
+  device_role_id = 4
+  site_id = netbox_dcim_site.example.id
+  tenant_id = 6
+  comments = "my comment"
+  status = "active"
+  asset_tag = netbox_tag.tag-one.name
+  cluster_id = 9
+  serial = "test serial"
+  face = "front"
+  name = "test device"
+  # parent_device_id = 88
+  platform_id = 2
+  position_id = 1
+  #primary_ip = "10.0.0.1/16"
+  #primary_ip4_id = 9
+  # primary_ip6_id =
+  rack_id = netbox_dcim_rack.example.id
+  # vc_position_id =
+  # vc_priority_id =
+  # virtual_chassis_id =
+  tags {
+    name = netbox_tag.tag-two.name
+    slug = netbox_tag.tag-two.slug
+  }
+  custom_fields = {
+    deviceCsutomField = "deviceCustomFieldValue"
   }
 }

@@ -44,7 +44,7 @@ resource "netbox_dcim_site" "example" {
   
 * `region_id` - (Optional) The ID of the region to assign to the site.
   
-* `status` - (Optional) Operational status of this site. Possible values are: `planned`, `staging`, `active`, `decommissioning`, `retired`.
+* `status` - (Optional) Operational status of this site. Possible values are: `planned`, `staging`, `active`, `decommissioning`, `retired`. Default value: `active`.
   
 * `tenant_id` - (Optional) The ID of a tenant to assign to the site.
   
