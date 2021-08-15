@@ -10,7 +10,6 @@ resource "netbox_tag" "tag-two" {
   color = "ff0000"
 }
 
-
 resource "netbox_dcim_site" "example" {
   name = "mysite"
   slug = trimspace(lower(replace("mysite"," ","-")))
@@ -73,4 +72,10 @@ resource "netbox_dcim_rack" "example" {
   custom_fields = {
     rackCustomField = "rackCustomeFieldValue"
   }
+}
+
+resource "netbox_ipam_prefix" "example"{
+  prefix = "10.0.0.0/16"
+  site_id = netbox_dcim_site.example.id
+  
 }
