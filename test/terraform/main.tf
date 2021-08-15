@@ -1,12 +1,12 @@
 resource "netbox_tag" "tag-one" {
-  provider = netbox.local
+  provider = netbox.local # use netbox to use the cloud provider or netbox.local for the local development version
   name  = "tag one"
   slug  = "tag-one"
   color = "ff0000"
 }
 
 resource "netbox_tag" "tag-two" {
-  provider = netbox.local
+  provider = netbox.local # use netbox to use the cloud provider or netbox.local for the local development version
   name  = "tag two"
   slug  = "tag-two"
   color = "ff0000"
@@ -14,7 +14,7 @@ resource "netbox_tag" "tag-two" {
 
 
 resource "netbox_dcim_site" "example" {
-  provider = netbox.local
+  provider = netbox.local # use netbox to use the cloud provider or netbox.local for the local development version
   name = "mysite"
   slug = trimspace(lower(replace("mysite"," ","-")))
   region_id = 12
