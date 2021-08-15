@@ -78,10 +78,10 @@ func resourceDcimDevices() *schema.Resource {
 				ValidateDiagFunc: stringLenBetween(0, 50),
 			},
 
-			"config_context": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
+			// "config_context": {
+			// 	Type:     schema.TypeString,
+			// 	Optional: true,
+			// },
 
 			"display_name": {
 				Type:     schema.TypeString,
@@ -91,12 +91,17 @@ func resourceDcimDevices() *schema.Resource {
 			"face": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ValidateDiagFunc: stringInSlice([]string{
+					models.DeviceFaceValueFront,
+					models.DeviceFaceValueRear,
+				}),
+				Default: models.DeviceFaceValueFront,
 			},
 
-			"local_context_data": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
+			// "local_context_data": {
+			// 	Type:     schema.TypeString,
+			// 	Optional: true,
+			// },
 
 			"name": {
 				Type:     schema.TypeString,
@@ -115,6 +120,7 @@ func resourceDcimDevices() *schema.Resource {
 			"position_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Default:  1,
 			},
 			"primary_ip": {
 				Type:     schema.TypeString,
@@ -231,9 +237,9 @@ func resourceDcimDevicesCreate(ctx context.Context, d *schema.ResourceData, m in
 		params.Data.Serial = v.(string)
 	}
 
-	if v, ok := d.GetOk("config_context"); ok {
-		params.Data.ConfigContext = v.(map[string]string)
-	}
+	// if v, ok := d.GetOk("config_context"); ok {
+	// 	params.Data.ConfigContext = v.(map[string]string)
+	// }
 
 	if v, ok := d.GetOk("display_name"); ok {
 		params.Data.DisplayName = v.(string)
@@ -243,9 +249,9 @@ func resourceDcimDevicesCreate(ctx context.Context, d *schema.ResourceData, m in
 		params.Data.Face = v.(string)
 	}
 
-	if v, ok := d.GetOk("local_context_data"); ok {
-		params.Data.LocalContextData = v.(*string)
-	}
+	// if v, ok := d.GetOk("local_context_data"); ok {
+	// 	params.Data.LocalContextData = v.(*string)
+	// }
 
 	if v, ok := d.GetOk("name"); ok {
 		params.Data.Name = v.(*string)
@@ -361,9 +367,9 @@ func resourceDcimDevicesRead(ctx context.Context, d *schema.ResourceData, m inte
 		d.Set("serial", resp.Payload.Serial)
 	}
 
-	if resp.Payload.ConfigContext != nil {
-		d.Set("config_context", resp.Payload.ConfigContext)
-	}
+	// if resp.Payload.ConfigContext != nil {
+	// 	d.Set("config_context", resp.Payload.ConfigContext)
+	// }
 
 	if resp.Payload.DisplayName != "" {
 		d.Set("display_name", resp.Payload.DisplayName)
@@ -373,9 +379,9 @@ func resourceDcimDevicesRead(ctx context.Context, d *schema.ResourceData, m inte
 		d.Set("face", resp.Payload.Face.Value)
 	}
 
-	if resp.Payload.LocalContextData != nil {
-		d.Set("local_context_data", resp.Payload.LocalContextData)
-	}
+	// if resp.Payload.LocalContextData != nil {
+	// 	d.Set("local_context_data", resp.Payload.LocalContextData)
+	// }
 
 	if resp.Payload.Name != nil {
 		d.Set("name", resp.Payload.Name)
@@ -477,9 +483,9 @@ func resourceDcimDevicesUpdate(ctx context.Context, d *schema.ResourceData, m in
 		params.Data.Serial = d.Get("serial").(string)
 	}
 
-	if d.HasChange("config_context") {
-		params.Data.ConfigContext = d.Get("config_context").(map[string]string)
-	}
+	// if d.HasChange("config_context") {
+	// 	params.Data.ConfigContext = d.Get("config_context").(map[string]string)
+	// }
 
 	if d.HasChange("display_name") {
 		params.Data.DisplayName = d.Get("display_name").(string)
@@ -489,12 +495,14 @@ func resourceDcimDevicesUpdate(ctx context.Context, d *schema.ResourceData, m in
 		params.Data.Face = d.Get("face").(string)
 	}
 
-	if d.HasChange("local_context_data") {
-		params.Data.LocalContextData = d.Get("local_context_data").(*string)
-	}
+	// if d.HasChange("local_context_data") {
+	// 	localContextData := d.Get("local_context_data").(string)
+	// 	params.Data.LocalContextData = &localContextData
+	// }
 
 	if d.HasChange("name") {
-		params.Data.Name = d.Get("name").(*string)
+		name := d.Get("name").(string)
+		params.Data.Name = &name
 	}
 
 	if d.HasChange("parent_device_id") {
@@ -502,11 +510,13 @@ func resourceDcimDevicesUpdate(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	if d.HasChange("platform_id") {
-		params.Data.Platform = d.Get("platform_id").(*int64)
+		platformID := int64(d.Get("platform_id").(int))
+		params.Data.Platform = &platformID
 	}
 
 	if d.HasChange("position_id") {
-		params.Data.Position = d.Get("parent_device_id").(*int64)
+		positionID := int64(d.Get("parent_device_id").(int))
+		params.Data.Position = &positionID
 	}
 
 	if d.HasChange("primary_ip") {
@@ -514,27 +524,33 @@ func resourceDcimDevicesUpdate(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	if d.HasChange("primary_ip4_id") {
-		params.Data.PrimaryIp4 = d.Get("primary_ip4_id").(*int64)
+		primaryIP4ID := int64(d.Get("primary_ip4_id").(int))
+		params.Data.PrimaryIp4 = &primaryIP4ID
 	}
 
 	if d.HasChange("primary_ip6_id") {
-		params.Data.PrimaryIp6 = d.Get("primary_ip6_id").(*int64)
+		primaryIP6ID := int64(d.Get("primary_ip6_id").(int))
+		params.Data.PrimaryIp6 = &primaryIP6ID
 	}
 
 	if d.HasChange("rack_id") {
-		params.Data.Rack = d.Get("rack_id").(*int64)
+		rackID := int64(d.Get("rack_id").(int))
+		params.Data.Rack = &rackID
 	}
 
 	if d.HasChange("vc_position_id") {
-		params.Data.VcPosition = d.Get("vc_position_id").(*int64)
+		vcPositionID := int64(d.Get("vc_position_id").(int))
+		params.Data.VcPosition = &vcPositionID
 	}
 
 	if d.HasChange("vc_priority_id") {
-		params.Data.VcPriority = d.Get("vc_priority_id").(*int64)
+		vcPriorityID := int64(d.Get("vc_priority_id").(int))
+		params.Data.VcPriority = &vcPriorityID
 	}
 
 	if d.HasChange("virtual_chassis_id") {
-		params.Data.VirtualChassis = d.Get("virtual_chassis_id").(*int64)
+		vcID := int64(d.Get("virtual_chassis_id").(int))
+		params.Data.VirtualChassis = &vcID
 	}
 
 	if d.HasChange("tags") {
