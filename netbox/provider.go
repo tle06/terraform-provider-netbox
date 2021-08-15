@@ -43,6 +43,7 @@ func Provider() *schema.Provider {
 			"netbox_ipam_prefix":           resourceIpamPrefix(),
 			"netbox_ipam_rir":              resourceIpamRir(),
 			"netbox_tag":                   resourceTag(),
+			"netbox_dcim_site":             resourceDcimSite(),
 		},
 
 		ConfigureContextFunc: providerConfigure,
