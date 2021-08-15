@@ -1,7 +1,5 @@
 # Terraform Provider for Netbox
 
-![](https://github.com/innovationnorway/terraform-provider-netbox/workflows/test/badge.svg)
-
 ## Requirements
 
 - [NetBox](https://netbox.readthedocs.io/) >= 2.9
@@ -51,5 +49,52 @@ $ TF_ACC=1 go test -v ./... -run=TestAccIpamPrefix
 ```
 
 The following environment variables must be set to run acceptance tests:
+
 - `NETBOX_HOST`
 - `NETBOX_TOKEN`
+
+## Test the provider localy
+
+### Windows environement
+
+Build the provider from the root of the repo
+
+```powershell
+go build
+```
+
+Create the pluging structure folder
+
+```powershell
+New-Item -ItemType directory -Path "%APPADATA%\terraform.d\plugins\terraform.example.com\local\netbox\1.0\windows_amd64"
+```
+
+Move the package to the plugin directory
+
+```powershell
+Move-Item -Path .\terraform-provider-netbox.exe -Destination "$env:APPDATA\terraform.d\plugins\terraform.example.com\local\netbox\1.0\windows_amd64" -Force
+```
+
+Browse to the test terarform folder
+
+```powershell
+cd .\test\terraform\
+```
+
+Terraform init
+
+```powershell
+terraform.exe init
+```
+
+Terraform plan
+
+```powershell
+terraform.exe plan
+```
+
+Terraform apply
+
+```powershell
+terraform.exe apply -auto-approve
+```
