@@ -252,7 +252,8 @@ func resourceDcimDevicesCreate(ctx context.Context, d *schema.ResourceData, m in
 	// }
 
 	if v, ok := d.GetOk("name"); ok {
-		params.Data.Name = v.(*string)
+		name := v.(string)
+		params.Data.Name = &name
 	}
 
 	if v, ok := d.GetOk("parent_device_id"); ok {
