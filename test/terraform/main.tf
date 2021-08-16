@@ -112,3 +112,24 @@ resource "netbox_dcim_device" "example" {
     deviceCsutomField = "deviceCustomFieldValue"
   }
 }
+
+
+resource "netbox_dcim_interface" "example" {
+
+  device_id = netbox_dcim_device.example.id
+  type = "virtual"
+  name = "test interface"
+  # conection_status =
+  # enabled =
+  # management_only =
+  # label =
+  # mac_address =
+  # mode =
+  # connected_endpoint =
+  # connected_endpoint_type =
+  # description =
+  # untagged_vlan_id =
+  # mtu =
+  # cable_id =
+  # tags =
+}
