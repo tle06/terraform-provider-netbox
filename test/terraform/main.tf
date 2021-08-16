@@ -37,9 +37,6 @@ resource "netbox_dcim_site" "example" {
     slug = netbox_tag.tag-two.slug
     }
     
-  custom_fields = {
-    tf-test = "customFieldValue"
-  }
 }
 
 resource "netbox_dcim_rack" "example" {
@@ -69,9 +66,6 @@ resource "netbox_dcim_rack" "example" {
     slug = netbox_tag.tag-two.slug
   }
 
-  custom_fields = {
-    rackCustomField = "rackCustomeFieldValue"
-  }
 }
 
 resource "netbox_ipam_prefix" "example"{
@@ -108,9 +102,7 @@ resource "netbox_dcim_device" "example" {
     name = netbox_tag.tag-two.name
     slug = netbox_tag.tag-two.slug
   }
-  custom_fields = {
-    deviceCsutomField = "deviceCustomFieldValue"
-  }
+
 }
 
 

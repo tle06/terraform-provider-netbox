@@ -28,7 +28,7 @@ func resourceDcimInterface() *schema.Resource {
 			},
 
 			"type": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Required: true,
 				ValidateDiagFunc: stringInSlice([]string{
 					models.InterfaceTypeValueVirtual,
@@ -128,52 +128,52 @@ func resourceDcimInterface() *schema.Resource {
 
 			"label": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 
 			"mac_address": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 
 			"mode": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 
 			"connected_endpoint": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 
 			"connected_endpoint_type": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 
 			"description": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 
 			"tagged_vlan_id": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 
 			"untagged_vlan_id": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 
 			"mtu": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 
 			"cable_id": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 
 			"tags": {
