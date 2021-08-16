@@ -88,16 +88,9 @@ resource "netbox_dcim_device" "example" {
   serial = "test serial"
   face = "front"
   name = "test device"
-  # parent_device_id = 88
   platform_id = 2
   position_id = 1
-  #primary_ip = "10.0.0.1/16"
-  #primary_ip4_id = 9
-  # primary_ip6_id =
   rack_id = netbox_dcim_rack.example.id
-  # vc_position_id =
-  # vc_priority_id =
-  # virtual_chassis_id =
   tags {
     name = netbox_tag.tag-two.name
     slug = netbox_tag.tag-two.slug
@@ -106,22 +99,22 @@ resource "netbox_dcim_device" "example" {
 }
 
 
-resource "netbox_dcim_interface" "example" {
+# resource "netbox_dcim_interface" "example" {
 
-  device_id = netbox_dcim_device.example.id
-  type = "virtual"
-  name = "test interface"
-  # conection_status =
-  # enabled =
-  # management_only =
-  # label =
-  # mac_address =
-  # mode =
-  # connected_endpoint =
-  # connected_endpoint_type =
-  # description =
-  # untagged_vlan_id =
-  # mtu =
-  # cable_id =
-  # tags =
-}
+#   device_id = netbox_dcim_device.example.id
+#   type = "virtual"
+#   name = "test interface"
+#   # conection_status =
+#   # enabled =
+#   # management_only =
+#   # label =
+#   # mac_address =
+#   # mode =
+#   # connected_endpoint =
+#   # connected_endpoint_type =
+#   # description =
+#   # untagged_vlan_id =
+#   # mtu =
+#   # cable_id =
+#   # tags =
+# }
