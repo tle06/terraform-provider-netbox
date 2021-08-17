@@ -34,6 +34,11 @@ func resourceCircuitsCircuit() *schema.Resource {
 				Required: true,
 			},
 
+			"provider_id": {
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+
 			"status": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -53,11 +58,6 @@ func resourceCircuitsCircuit() *schema.Resource {
 			},
 
 			"commit_rate": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-
-			"provider_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
@@ -124,15 +124,17 @@ func resourceCircuitsCircuitCreate(ctx context.Context, d *schema.ResourceData, 
 
 	cid := d.Get("cid").(string)
 	circuitType := int64(d.Get("type_id").(int))
+	providerID := int64(d.Get("provider_id").(int))
 
 	params := &circuits.CircuitsCircuitsCreateParams{
 		Context: ctx,
 	}
 
 	params.Data = &models.WritableCircuit{
-		Cid:  &cid,
-		Type: &circuitType,
-		Tags: expandTags(d.Get("tags").([]interface{})),
+		Cid:      &cid,
+		Type:     &circuitType,
+		Provider: &providerID,
+		Tags:     expandTags(d.Get("tags").([]interface{})),
 	}
 
 	if v, ok := d.GetOk("tenant_id"); ok {
@@ -143,11 +145,6 @@ func resourceCircuitsCircuitCreate(ctx context.Context, d *schema.ResourceData, 
 	if v, ok := d.GetOk("commit_rate"); ok {
 		commitRate := int64(v.(int))
 		params.Data.CommitRate = &commitRate
-	}
-
-	if v, ok := d.GetOk("provider_id"); ok {
-		providerID := int64(v.(int))
-		params.Data.Provider = &providerID
 	}
 
 	if v, ok := d.GetOk("comments"); ok {
@@ -212,7 +209,8 @@ func resourceCircuitsCircuitRead(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	d.Set("cid", resp.Payload.Cid)
-	d.Set("type_id", resp.Payload.Type)
+	d.Set("type_id", resp.Payload.Type.ID)
+	d.Set("provider_id", resp.Payload.Provider.ID)
 
 	if resp.Payload.Status != nil {
 		d.Set("status", resp.Payload.Status.Value)
@@ -230,10 +228,6 @@ func resourceCircuitsCircuitRead(ctx context.Context, d *schema.ResourceData, m 
 	}
 	if resp.Payload.CommitRate != nil {
 		d.Set("commit_rate", resp.Payload.CommitRate)
-	}
-
-	if resp.Payload.Provider != nil {
-		d.Set("provider_id", resp.Payload.Provider)
 	}
 
 	if resp.Payload.InstallDate != nil {
@@ -256,6 +250,7 @@ func resourceCircuitsCircuitUpdate(ctx context.Context, d *schema.ResourceData, 
 
 	cid := d.Get("cid").(string)
 	circuitType := int64(d.Get("type_id").(int))
+	providerID := int64(d.Get("provider_id").(int))
 
 	params := &circuits.CircuitsCircuitsPartialUpdateParams{
 		Context: ctx,
@@ -263,8 +258,9 @@ func resourceCircuitsCircuitUpdate(ctx context.Context, d *schema.ResourceData, 
 	}
 
 	params.Data = &models.WritableCircuit{
-		Cid:  &cid,
-		Type: &circuitType,
+		Cid:      &cid,
+		Type:     &circuitType,
+		Provider: &providerID,
 	}
 
 	if d.HasChange("status") {
@@ -279,11 +275,6 @@ func resourceCircuitsCircuitUpdate(ctx context.Context, d *schema.ResourceData, 
 	if d.HasChange("commit_rate") {
 		commitRate := int64(d.Get("commit_rate").(int))
 		params.Data.CommitRate = &commitRate
-	}
-
-	if d.HasChange("provider_id") {
-		providerID := int64(d.Get("provider_id").(int))
-		params.Data.Provider = &providerID
 	}
 
 	if d.HasChange("install_date") {
