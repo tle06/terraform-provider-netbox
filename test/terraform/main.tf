@@ -112,3 +112,20 @@ resource "netbox_dcim_device" "example" {
     deviceCsutomField = "deviceCustomFieldValue"
   }
 }
+
+
+resource "netbox_circuits_circuit" "example" {
+
+  cid ="test cid"
+  type_id = 1
+  # status
+  # tenant_id
+  # commit_rate
+  # provider_id
+  # comments
+  # description
+  # install_date
+  # tags
+  # custom_fields
+
+}
