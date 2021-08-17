@@ -3,5 +3,5 @@
 
 provider "netbox" {
   host  = "https://demo.netbox.dev"
-  token = "0bf870afab7b6e1fa6fbd9eed83bd548c590838f"
+  token = "8bd3fef7eee17ac3777163de8805359bb2a8499d"
 }

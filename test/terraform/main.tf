@@ -37,9 +37,6 @@ resource "netbox_dcim_site" "example" {
     slug = netbox_tag.tag-two.slug
     }
     
-  custom_fields = {
-    tf-test = "customFieldValue"
-  }
 }
 
 resource "netbox_dcim_rack" "example" {
@@ -69,9 +66,6 @@ resource "netbox_dcim_rack" "example" {
     slug = netbox_tag.tag-two.slug
   }
 
-  custom_fields = {
-    rackCustomField = "rackCustomeFieldValue"
-  }
 }
 
 resource "netbox_ipam_prefix" "example"{
@@ -94,21 +88,34 @@ resource "netbox_dcim_device" "example" {
   serial = "test serial"
   face = "front"
   name = "test device"
-  # parent_device_id = 88
   platform_id = 2
   position_id = 1
-  #primary_ip = "10.0.0.1/16"
-  #primary_ip4_id = 9
-  # primary_ip6_id =
   rack_id = netbox_dcim_rack.example.id
-  # vc_position_id =
-  # vc_priority_id =
-  # virtual_chassis_id =
   tags {
     name = netbox_tag.tag-two.name
     slug = netbox_tag.tag-two.slug
   }
-  custom_fields = {
-    deviceCsutomField = "deviceCustomFieldValue"
+
+}
+
+
+resource "netbox_dcim_interface" "example" {
+
+  device_id = netbox_dcim_device.example.id
+  type = "virtual"
+  name = "test interface"
+  tagged_vlan = [64]
+  connection_status = true
+  enabled = true
+  management_only = true
+  label = "label"
+  mac_address = "00:00:00:00:00:00"
+  mode = "access"
+  description = "test"
+  untagged_vlan_id = 64
+  mtu = 1000
+  tags {
+    name = netbox_tag.tag-two.name
+    slug = netbox_tag.tag-two.slug
   }
 }
