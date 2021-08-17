@@ -121,18 +121,18 @@ resource "netbox_dcim_interface" "example" {
 }
 
 
-resource "netbox_circuits_circuit" "example" {
+# resource "netbox_circuits_circuit" "example" {
 
-  cid ="test cid"
-  type_id = 1
-  provider_id = 2
-  #status
-  # tenant_id
-  # commit_rate
-  # comments
-  # description
-  # install_date
-  # tags
-  # custom_fields
+#   cid ="test cid"
+#   type_id = 1
+#   provider_id = 2
+#   #status
+#   # tenant_id
+#   # commit_rate
+#   # comments
+#   # description
+#   # install_date
+#   # tags
+#   # custom_fields
 
-}
+# }
