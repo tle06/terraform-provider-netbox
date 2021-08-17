@@ -34,6 +34,7 @@ resource "netbox_dcim_device" "example" {
   custom_fields = {
     deviceCsutomField = "deviceCustomFieldValue"
   }
+}
 ```
 
 ## Argument Reference
