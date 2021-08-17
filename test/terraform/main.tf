@@ -105,15 +105,15 @@ resource "netbox_dcim_interface" "example" {
   type = "virtual"
   name = "test interface"
   tagged_vlan = [64]
-  connection_status = false #not working
-  enabled = false #not working
-  management_only = false
+  connection_status = true
+  enabled = true
+  management_only = true
   label = "label"
   mac_address = "00:00:00:00:00:00"
   mode = "access"
   description = "test"
   untagged_vlan_id = 64
-  mtu = 1500
+  mtu = 1000
   tags {
     name = netbox_tag.tag-two.name
     slug = netbox_tag.tag-two.slug

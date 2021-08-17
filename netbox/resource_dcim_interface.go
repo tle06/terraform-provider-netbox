@@ -119,7 +119,6 @@ func resourceDcimInterface() *schema.Resource {
 			"enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  true,
 			},
 
 			"management_only": {
@@ -301,9 +300,6 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 	d.Set("device_id", resp.Payload.Device.ID)
 	d.Set("type", resp.Payload.Type.Value)
 	d.Set("name", resp.Payload.Name)
-	d.Set("enabled", resp.Payload.Enabled)
-	d.Set("management_only", resp.Payload.MgmtOnly)
-	d.Set("tagged_vlan", flattenTaggedVlans(resp.Payload.TaggedVlans))
 
 	if resp.Payload.ConnectionStatus != nil {
 		d.Set("connection_status", resp.Payload.ConnectionStatus.Value)
@@ -333,6 +329,10 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 		d.Set("mtu", resp.Payload.Mtu)
 	}
 
+	d.Set("enabled", resp.Payload.Enabled)
+	d.Set("management_only", resp.Payload.MgmtOnly)
+	d.Set("tagged_vlan", flattenTaggedVlans(resp.Payload.TaggedVlans))
+
 	d.Set("tags", flattenTags(resp.Payload.Tags))
 
 	return diags
@@ -341,7 +341,7 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	rackID, err := strconv.ParseInt(d.Id(), 10, 64)
+	interfaceID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -352,7 +352,7 @@ func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m 
 
 	params := &dcim.DcimInterfacesPartialUpdateParams{
 		Context: ctx,
-		ID:      rackID,
+		ID:      interfaceID,
 	}
 
 	params.Data = &models.WritableInterface{
@@ -362,16 +362,14 @@ func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m 
 		TaggedVlans: expandTaggedVlans(d.Get("tagged_vlan").([]interface{})),
 	}
 
-	params.Data.Enabled = d.Get("enabled").(bool)
-
 	if d.HasChange("connection_status") {
 		connectionStatus := d.Get("connection_status").(bool)
 		params.Data.ConnectionStatus = &connectionStatus
 	}
 
-	// if d.HasChange("enabled") {
-	// 	params.Data.Enabled = d.Get("enabled").(bool)
-	// }
+	if d.HasChange("enabled") {
+		params.Data.Enabled = d.Get("enabled").(bool)
+	}
 
 	if d.HasChange("management_only") {
 		params.Data.MgmtOnly = d.Get("management_only").(bool)
