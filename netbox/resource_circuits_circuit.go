@@ -283,7 +283,6 @@ func resourceCircuitsCircuitUpdate(ctx context.Context, d *schema.ResourceData, 
 			installDateConverted := strfmt.Date(installDate)
 			params.Data.InstallDate = &installDateConverted
 		}
-
 	}
 
 	if d.HasChange("description") {
