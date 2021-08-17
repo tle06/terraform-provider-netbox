@@ -46,11 +46,8 @@ func Provider() *schema.Provider {
 			"netbox_dcim_site":             resourceDcimSite(),
 			"netbox_dcim_rack":             resourceDcimRack(),
 			"netbox_dcim_device":           resourceDcimDevices(),
-<<<<<<< HEAD
 			"netbox_circuits_circuit":      resourceCircuitsCircuit(),
-=======
 			"netbox_dcim_interface":        resourceDcimInterface(),
->>>>>>> master
 		},
 
 		ConfigureContextFunc: providerConfigure,
