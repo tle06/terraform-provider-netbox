@@ -126,7 +126,7 @@ resource "netbox_circuits_circuit" "example" {
   cid ="test cid"
   type_id = 1
   provider_id = 2
-  # status
+  #status
   # tenant_id
   # commit_rate
   # comments
