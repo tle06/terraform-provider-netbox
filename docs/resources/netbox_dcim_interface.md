@@ -44,7 +44,7 @@ resource "netbox_dcim_interface" "example" {
 
 * `name` - (Required) The name of the interface.
 
-* `tagged_vlan` - (Required) A list of VLAN ID that will be bind to the interface (ei. `[1,2]`)
+* `tagged_vlan` - (Required) A list of VLAN ID that will be bind to the interface (ei. `[1,2]`). VLAN need to belong to the site or being global.
 
 * `connection_status` - (Optional) The status of the interface. Possible value: `true`, `false`.
 
