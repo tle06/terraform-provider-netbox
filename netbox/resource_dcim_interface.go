@@ -111,7 +111,7 @@ func resourceDcimInterface() *schema.Resource {
 				Required: true,
 			},
 
-			"conection_status": {
+			"connection_status": {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
@@ -119,6 +119,7 @@ func resourceDcimInterface() *schema.Resource {
 			"enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  true,
 			},
 
 			"management_only": {
@@ -139,16 +140,11 @@ func resourceDcimInterface() *schema.Resource {
 			"mode": {
 				Type:     schema.TypeString,
 				Optional: true,
-			},
-
-			"connected_endpoint": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-
-			"connected_endpoint_type": {
-				Type:     schema.TypeString,
-				Optional: true,
+				ValidateDiagFunc: stringInSlice([]string{
+					models.InterfaceModeValueAccess,
+					models.InterfaceModeValueTagged,
+					models.InterfaceModeValueTaggedAll,
+				}),
 			},
 
 			"description": {
@@ -156,9 +152,12 @@ func resourceDcimInterface() *schema.Resource {
 				Optional: true,
 			},
 
-			"tagged_vlan_id": {
-				Type:     schema.TypeInt,
+			"tagged_vlan": {
+				Type:     schema.TypeList,
 				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeInt,
+				},
 			},
 
 			"untagged_vlan_id": {
@@ -167,11 +166,6 @@ func resourceDcimInterface() *schema.Resource {
 			},
 
 			"mtu": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-
-			"cable_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
@@ -212,22 +206,23 @@ func resourceDcimInterfaceCreate(ctx context.Context, d *schema.ResourceData, m 
 
 	var diags diag.Diagnostics
 
-	var deviceID = int64(d.Get("device_id").(int))
-	var Type = d.Get("type_id").(string)
-	var name = d.Get("name").(string)
+	interfaceID := int64(d.Get("device_id").(int))
+	interfaceType := d.Get("type").(string)
+	name := d.Get("name").(string)
 
 	params := &dcim.DcimInterfacesCreateParams{
 		Context: ctx,
 	}
 
 	params.Data = &models.WritableInterface{
-		Device: &deviceID,
-		Type:   &Type,
-		Name:   &name,
-		Tags:   expandTags(d.Get("tags").([]interface{})),
+		Device:      &interfaceID,
+		Type:        &interfaceType,
+		Name:        &name,
+		Tags:        expandTags(d.Get("tags").([]interface{})),
+		TaggedVlans: expandTaggedVlans(d.Get("tagged_vlan").([]interface{})),
 	}
 
-	if v, ok := d.GetOk("conection_status"); ok {
+	if v, ok := d.GetOk("connection_status"); ok {
 		connectionStatus := v.(bool)
 		params.Data.ConnectionStatus = &connectionStatus
 	}
@@ -253,14 +248,6 @@ func resourceDcimInterfaceCreate(ctx context.Context, d *schema.ResourceData, m 
 		params.Data.Mode = v.(string)
 	}
 
-	if v, ok := d.GetOk("connected_endpoint"); ok {
-		params.Data.ConnectedEndpoint = v.(map[string]string)
-	}
-
-	if v, ok := d.GetOk("connected_endpoint_type"); ok {
-		params.Data.ConnectedEndpointType = v.(string)
-	}
-
 	if v, ok := d.GetOk("description"); ok {
 		params.Data.Description = v.(string)
 	}
@@ -272,10 +259,6 @@ func resourceDcimInterfaceCreate(ctx context.Context, d *schema.ResourceData, m 
 	if v, ok := d.GetOk("mtu"); ok {
 		mtu := int64(v.(int))
 		params.Data.Mtu = &mtu
-	}
-
-	if v, ok := d.GetOk("cable_id"); ok {
-		params.Data.Cable.ID = int64(v.(int))
 	}
 
 	resp, err := c.Dcim.DcimInterfacesCreate(params, nil)
@@ -320,9 +303,10 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 	d.Set("name", resp.Payload.Name)
 	d.Set("enabled", resp.Payload.Enabled)
 	d.Set("management_only", resp.Payload.MgmtOnly)
+	d.Set("tagged_vlan", flattenTaggedVlans(resp.Payload.TaggedVlans))
 
 	if resp.Payload.ConnectionStatus != nil {
-		d.Set("conection_status", resp.Payload.ConnectionStatus.Value)
+		d.Set("connection_status", resp.Payload.ConnectionStatus.Value)
 	}
 
 	if resp.Payload.Label != "" {
@@ -337,14 +321,6 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 		d.Set("mode", resp.Payload.Mode.Value)
 	}
 
-	if resp.Payload.ConnectedEndpoint != nil {
-		d.Set("connected_endpoint", resp.Payload.ConnectedEndpoint)
-	}
-
-	if resp.Payload.ConnectedEndpointType != "" {
-		d.Set("connected_endpoint_type", resp.Payload.ConnectedEndpointType)
-	}
-
 	if resp.Payload.Description != "" {
 		d.Set("description", resp.Payload.Description)
 	}
@@ -355,10 +331,6 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 
 	if resp.Payload.Mtu != nil {
 		d.Set("mtu", resp.Payload.Mtu)
-	}
-
-	if resp.Payload.Cable != nil {
-		d.Set("cable_id", resp.Payload.Cable.ID)
 	}
 
 	d.Set("tags", flattenTags(resp.Payload.Tags))
@@ -384,19 +356,22 @@ func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	params.Data = &models.WritableInterface{
-		Device: &deviceID,
-		Type:   &interfaceType,
-		Name:   &name,
+		Device:      &deviceID,
+		Type:        &interfaceType,
+		Name:        &name,
+		TaggedVlans: expandTaggedVlans(d.Get("tagged_vlan").([]interface{})),
 	}
 
-	if d.HasChange("conection_status") {
-		connectionStatus := d.Get("conection_status").(bool)
+	params.Data.Enabled = d.Get("enabled").(bool)
+
+	if d.HasChange("connection_status") {
+		connectionStatus := d.Get("connection_status").(bool)
 		params.Data.ConnectionStatus = &connectionStatus
 	}
 
-	if d.HasChange("enabled") {
-		params.Data.Enabled = d.Get("enabled").(bool)
-	}
+	// if d.HasChange("enabled") {
+	// 	params.Data.Enabled = d.Get("enabled").(bool)
+	// }
 
 	if d.HasChange("management_only") {
 		params.Data.MgmtOnly = d.Get("management_only").(bool)
@@ -415,14 +390,6 @@ func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m 
 		params.Data.Mode = d.Get("mode").(string)
 	}
 
-	if d.HasChange("connected_endpoint") {
-		params.Data.ConnectedEndpoint = d.Get("connected_endpoint").(map[string]string)
-	}
-
-	if d.HasChange("connected_endpoint_type") {
-		params.Data.ConnectedEndpointType = d.Get("connected_endpoint_type").(string)
-	}
-
 	if d.HasChange("description") {
 		params.Data.Description = d.Get("description").(string)
 	}
@@ -435,11 +402,6 @@ func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m 
 	if d.HasChange("mtu") {
 		mtu := int64(d.Get("mtu").(int))
 		params.Data.Mtu = &mtu
-	}
-
-	if d.HasChange("cable_id") {
-		cableID := int64(d.Get("cable_id").(int))
-		params.Data.Cable.ID = cableID
 	}
 
 	if d.HasChange("tags") {
@@ -477,4 +439,40 @@ func resourceDcimInterfaceDelete(ctx context.Context, d *schema.ResourceData, m 
 	d.SetId("")
 
 	return diags
+}
+
+func expandTaggedVlans(input []interface{}) []int64 {
+	if len(input) == 0 {
+		return nil
+	}
+
+	results := make([]int64, 0)
+
+	for _, item := range input {
+		value := item.(int)
+		results = append(results, int64(value))
+	}
+
+	return results
+}
+
+func flattenTaggedVlans(input []*models.NestedVLAN) []interface{} {
+	if input == nil {
+		return []interface{}{}
+	}
+
+	result := make([]interface{}, 0)
+
+	for _, item := range input {
+		values := make(map[string]interface{})
+
+		values["id"] = item.ID
+		values["name"] = item.Name
+		values["vid"] = item.Vid
+		values["DisplayName"] = item.DisplayName
+
+		result = append(result, values["id"])
+	}
+
+	return result
 }
