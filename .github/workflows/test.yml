@@ -21,7 +21,7 @@ jobs:
     container: bflad/tfproviderlint
     steps:
     - uses: actions/checkout@v2
-    - run: tfproviderlint -R014=false -R04=false ./...
+    - run: tfproviderlint -R014=false -R004=false ./...
 
   go-test:
     runs-on: ubuntu-latest
