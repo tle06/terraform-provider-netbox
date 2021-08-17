@@ -119,6 +119,7 @@ func resourceDcimInterface() *schema.Resource {
 			"enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  true,
 			},
 
 			"management_only": {
