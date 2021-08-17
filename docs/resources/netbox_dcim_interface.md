@@ -64,7 +64,7 @@ resource "netbox_dcim_interface" "example" {
 
 * `mtu` - (Optional) The MTU of the interface.
 
-* `tags` - (Optional) List of tags to assign to the device. Each tag need to be input in a tags block and refering a resources previously created.
+* `tags` - (Optional) List of tags to assign to the interface. Each tag need to be input in a tags block and refering a resources previously created.
   ```
     tags {
       name = netbox_tag.example2.name
