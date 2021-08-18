@@ -278,14 +278,14 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 
 	var diags diag.Diagnostics
 
-	interfaceID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimInterfacesReadParams{
 		Context: ctx,
-		ID:      interfaceID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Dcim.DcimInterfacesRead(params, nil)
@@ -342,7 +342,7 @@ func resourceDcimInterfaceRead(ctx context.Context, d *schema.ResourceData, m in
 func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	interfaceID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -353,7 +353,7 @@ func resourceDcimInterfaceUpdate(ctx context.Context, d *schema.ResourceData, m 
 
 	params := &dcim.DcimInterfacesPartialUpdateParams{
 		Context: ctx,
-		ID:      interfaceID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritableInterface{
@@ -420,14 +420,14 @@ func resourceDcimInterfaceDelete(ctx context.Context, d *schema.ResourceData, m 
 
 	var diags diag.Diagnostics
 
-	deviceID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimInterfacesDeleteParams{
 		Context: ctx,
-		ID:      deviceID,
+		ID:      objectID,
 	}
 
 	_, err = c.Dcim.DcimInterfacesDelete(params, nil)

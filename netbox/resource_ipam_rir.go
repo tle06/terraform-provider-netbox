@@ -67,14 +67,14 @@ func resourceIpamRirRead(ctx context.Context, d *schema.ResourceData, m interfac
 
 	var diags diag.Diagnostics
 
-	rirID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamRirsReadParams{
 		Context: ctx,
-		ID:      rirID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Ipam.IpamRirsRead(params, nil)
@@ -94,7 +94,7 @@ func resourceIpamRirRead(ctx context.Context, d *schema.ResourceData, m interfac
 func resourceIpamRirUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	rirID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -104,7 +104,7 @@ func resourceIpamRirUpdate(ctx context.Context, d *schema.ResourceData, m interf
 
 	params := &ipam.IpamRirsPartialUpdateParams{
 		Context: ctx,
-		ID:      rirID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.RIR{
@@ -125,14 +125,14 @@ func resourceIpamRirDelete(ctx context.Context, d *schema.ResourceData, m interf
 
 	var diags diag.Diagnostics
 
-	rirID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamRirsDeleteParams{
 		Context: ctx,
-		ID:      rirID,
+		ID:      objectID,
 	}
 
 	_, err = c.Ipam.IpamRirsDelete(params, nil)

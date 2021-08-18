@@ -151,14 +151,14 @@ func resourceIpamVlanRead(ctx context.Context, d *schema.ResourceData, m interfa
 
 	var diags diag.Diagnostics
 
-	vlanID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamVlansReadParams{
 		Context: ctx,
-		ID:      vlanID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Ipam.IpamVlansRead(params, nil)
@@ -202,7 +202,7 @@ func resourceIpamVlanRead(ctx context.Context, d *schema.ResourceData, m interfa
 func resourceIpamVlanUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	vlanID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -212,7 +212,7 @@ func resourceIpamVlanUpdate(ctx context.Context, d *schema.ResourceData, m inter
 
 	params := &ipam.IpamVlansPartialUpdateParams{
 		Context: ctx,
-		ID:      vlanID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritableVLAN{
@@ -260,14 +260,14 @@ func resourceIpamVlanDelete(ctx context.Context, d *schema.ResourceData, m inter
 
 	var diags diag.Diagnostics
 
-	vlanID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamVlansDeleteParams{
 		Context: ctx,
-		ID:      vlanID,
+		ID:      objectID,
 	}
 
 	_, err = c.Ipam.IpamVlansDelete(params, nil)

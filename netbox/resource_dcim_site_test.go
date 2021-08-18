@@ -40,14 +40,14 @@ func testAccCheckDcimSiteDestroy(s *terraform.State) error {
 			continue
 		}
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimSitesReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Dcim.DcimSitesRead(params, nil)
@@ -79,14 +79,14 @@ func testAccCheckDcimSiteExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		siteID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimSitesReadParams{
 			Context: context.Background(),
-			ID:      siteID,
+			ID:      objectID,
 		}
 
 		_, err = c.Dcim.DcimSitesRead(params, nil)

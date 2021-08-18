@@ -90,14 +90,14 @@ func resourceDcimRegionRead(ctx context.Context, d *schema.ResourceData, m inter
 
 	var diags diag.Diagnostics
 
-	regionID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimRegionsReadParams{
 		Context: ctx,
-		ID:      regionID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Dcim.DcimRegionsRead(params, nil)
@@ -127,7 +127,7 @@ func resourceDcimRegionRead(ctx context.Context, d *schema.ResourceData, m inter
 func resourceDcimRegionUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	regionID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -137,7 +137,7 @@ func resourceDcimRegionUpdate(ctx context.Context, d *schema.ResourceData, m int
 
 	params := &dcim.DcimRegionsPartialUpdateParams{
 		Context: ctx,
-		ID:      regionID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritableRegion{
@@ -167,14 +167,14 @@ func resourceDcimRegionDelete(ctx context.Context, d *schema.ResourceData, m int
 
 	var diags diag.Diagnostics
 
-	regionID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimRegionsDeleteParams{
 		Context: ctx,
-		ID:      regionID,
+		ID:      objectID,
 	}
 
 	_, err = c.Dcim.DcimRegionsDelete(params, nil)

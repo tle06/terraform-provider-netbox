@@ -39,14 +39,14 @@ func testAccCheckDcimInterfaceDestroy(s *terraform.State) error {
 			continue
 		}
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimInterfacesReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Dcim.DcimInterfacesRead(params, nil)
@@ -78,14 +78,14 @@ func testAccCheckDcimInterfaceExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		interfaceID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimInterfacesReadParams{
 			Context: context.Background(),
-			ID:      interfaceID,
+			ID:      objectID,
 		}
 
 		_, err = c.Dcim.DcimInterfacesRead(params, nil)

@@ -40,14 +40,14 @@ func testAccCheckDcimDeviceDestroy(s *terraform.State) error {
 			continue
 		}
 
-		deviceID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimDevicesReadParams{
 			Context: context.Background(),
-			ID:      deviceID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Dcim.DcimDevicesRead(params, nil)
@@ -79,14 +79,14 @@ func testAccCheckDcimDeviceExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		deviceID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimDevicesReadParams{
 			Context: context.Background(),
-			ID:      deviceID,
+			ID:      objectID,
 		}
 
 		_, err = c.Dcim.DcimDevicesRead(params, nil)

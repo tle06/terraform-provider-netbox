@@ -40,14 +40,14 @@ func testAccCheckDcimRackDestroy(s *terraform.State) error {
 			continue
 		}
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimRacksReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Dcim.DcimRacksRead(params, nil)
@@ -79,14 +79,14 @@ func testAccCheckDcimRackExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		rackID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimRacksReadParams{
 			Context: context.Background(),
-			ID:      rackID,
+			ID:      objectID,
 		}
 
 		_, err = c.Dcim.DcimRacksRead(params, nil)

@@ -192,14 +192,14 @@ func resourceIpamPrefixRead(ctx context.Context, d *schema.ResourceData, m inter
 
 	var diags diag.Diagnostics
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamPrefixesReadParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Ipam.IpamPrefixesRead(params, nil)
@@ -250,7 +250,7 @@ func resourceIpamPrefixRead(ctx context.Context, d *schema.ResourceData, m inter
 func resourceIpamPrefixUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -259,7 +259,7 @@ func resourceIpamPrefixUpdate(ctx context.Context, d *schema.ResourceData, m int
 
 	params := &ipam.IpamPrefixesPartialUpdateParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritablePrefix{
@@ -324,14 +324,14 @@ func resourceIpamPrefixDelete(ctx context.Context, d *schema.ResourceData, m int
 
 	var diags diag.Diagnostics
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamPrefixesDeleteParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	_, err = c.Ipam.IpamPrefixesDelete(params, nil)

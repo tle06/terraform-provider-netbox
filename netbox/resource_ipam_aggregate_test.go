@@ -39,14 +39,14 @@ func testAccCheckIpamAggregateDestroy(s *terraform.State) error {
 			continue
 		}
 
-		aggregateID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamAggregatesReadParams{
 			Context: context.Background(),
-			ID:      aggregateID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Ipam.IpamAggregatesRead(params, nil)
@@ -78,14 +78,14 @@ func testAccCheckIpamAggregateExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		aggregateID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamAggregatesReadParams{
 			Context: context.Background(),
-			ID:      aggregateID,
+			ID:      objectID,
 		}
 
 		_, err = c.Ipam.IpamAggregatesRead(params, nil)

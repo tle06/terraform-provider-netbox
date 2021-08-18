@@ -261,14 +261,14 @@ func resourceDcimSiteRead(ctx context.Context, d *schema.ResourceData, m interfa
 
 	var diags diag.Diagnostics
 
-	siteID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimSitesReadParams{
 		Context: ctx,
-		ID:      siteID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Dcim.DcimSitesRead(params, nil)
@@ -353,7 +353,7 @@ func resourceDcimSiteRead(ctx context.Context, d *schema.ResourceData, m interfa
 func resourceDcimSiteUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	siteID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -363,7 +363,7 @@ func resourceDcimSiteUpdate(ctx context.Context, d *schema.ResourceData, m inter
 
 	params := &dcim.DcimSitesPartialUpdateParams{
 		Context: ctx,
-		ID:      siteID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritableSite{
@@ -458,14 +458,14 @@ func resourceDcimSiteDelete(ctx context.Context, d *schema.ResourceData, m inter
 
 	var diags diag.Diagnostics
 
-	siteID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimSitesDeleteParams{
 		Context: ctx,
-		ID:      siteID,
+		ID:      objectID,
 	}
 
 	_, err = c.Dcim.DcimSitesDelete(params, nil)
