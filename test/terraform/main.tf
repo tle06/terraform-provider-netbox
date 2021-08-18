@@ -15,7 +15,7 @@ resource "netbox_dcim_site" "example" {
   slug = trimspace(lower(replace("mysite"," ","-")))
   region_id = 12
   status = "planned"
-  tenant_id = 6
+  tenant_id = 4
   facility = "tf facility"
   asn_id = 65000
   time_zone = "Africa/Asmara"
@@ -43,7 +43,7 @@ resource "netbox_dcim_rack" "example" {
   name = "TF rack"
   site_id = netbox_dcim_site.example.id
   facility = "tf facility rack"
-  tenant_id = 6
+  tenant_id = 4
   status = "available" 
   role_id = 2
   serial = "test serial" 
@@ -80,7 +80,7 @@ resource "netbox_dcim_device" "example" {
   device_type_id = 7
   device_role_id = 4
   site_id = netbox_dcim_site.example.id
-  tenant_id = 6
+  tenant_id = 4
   comments = "my comment"
   status = "active"
   asset_tag = netbox_tag.tag-one.name
@@ -104,7 +104,7 @@ resource "netbox_dcim_interface" "example" {
   device_id = netbox_dcim_device.example.id
   type = "virtual"
   name = "test interface"
-  tagged_vlan = [82]
+  tagged_vlan = [netbox_ipam_vlan.example.id]
   connection_status = true
   enabled = true
   management_only = true
@@ -112,7 +112,7 @@ resource "netbox_dcim_interface" "example" {
   mac_address = "00:00:00:00:00:00"
   mode = "access"
   description = "test"
-  untagged_vlan_id = 82
+  untagged_vlan_id = netbox_ipam_vlan.example.id
   mtu = 1000
   tags {
     name = netbox_tag.tag-two.name
@@ -148,7 +148,7 @@ resource "netbox_ipam_vlan" "example" {
   name = "test terraform"
 	vid = 300
 	site_id = netbox_dcim_site.example.id
-	tenant_id = 6
+	tenant_id = 4
 	status = "reserved"
 	role_id = 1
   description = "test terraform"
@@ -156,4 +156,19 @@ resource "netbox_ipam_vlan" "example" {
     name = netbox_tag.tag-two.name
     slug = netbox_tag.tag-two.slug
   }
+}
+
+resource "netbox_tenancy_tenant" "example" {
+  name = "test terraform"
+  slug = "test-terraform"
+  # comments = "test comments"
+  # description = "test description"
+  # group_id = 1
+  # tags {
+  #   name = netbox_tag.tag-two.name
+  #   slug = netbox_tag.tag-two.slug
+  # }
+  # custom_fields = {
+  #   cust_id = "TTT22"
+  # }
 }
