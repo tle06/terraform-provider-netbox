@@ -187,16 +187,22 @@ resource "netbox_dcim_interface" "example" {
 
 resource "netbox_ipam_ipaddress" "example" {
   address = "10.0.0.1/16"
+  
+  description = "test"
+  tenant_id = netbox_tenancy_tenant.example.id
+  status = "reserved"
+  role = "vip"
+  vrf_id = 1
   # nat_outside_id = 64
-  # description
-  # tenant_id
-  # status
-  # role
-  # vrf_id
   # assigned_object_id
   # assigned_object_type
-  # dns_name
+  dns_name = "test.example.com"
   # nat_inside_id
-  # tags
-  # custom_fields
+  tags {
+    name = netbox_tag.tag-two.name
+    slug = netbox_tag.tag-two.slug
+  }
+  # custom_fields = {
+  #   ipAddressCustomField = "ipAddressCustomFieldValue"
+  # }
 }
