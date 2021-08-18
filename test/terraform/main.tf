@@ -223,3 +223,20 @@ resource "netbox_ipam_ipaddress" "example" {
 }
 
 
+resource "netbox_circuits_provider" "example" {
+  name = "example"
+  slug = "example"
+  # asn = "65000"
+  # account = "my account"
+  # admin_contact = "john doe"
+  # comments = "comment"
+  # noc_contact = "john doe 2"
+  # portal_url = "https://demo.netbox.dev"
+  # tags {
+  #   name = netbox_tag.tag-two.name
+  #   slug = netbox_tag.tag-two.slug
+  # }
+  # custom_fields = {
+  #   customFieldProvider ="customFieldProviderValue"
+  # }
+}
