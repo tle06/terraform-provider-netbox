@@ -232,7 +232,8 @@ func resourceDcimSiteCreate(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	if v, ok := d.GetOk("contact_email"); ok {
-		params.Data.ContactEmail = v.(strfmt.Email)
+		contactEmail := strfmt.Email(v.(string))
+		params.Data.ContactEmail = contactEmail
 	}
 
 	if v, ok := d.GetOk("comments"); ok {
@@ -428,7 +429,8 @@ func resourceDcimSiteUpdate(ctx context.Context, d *schema.ResourceData, m inter
 	}
 
 	if d.HasChange("contact_email") {
-		params.Data.ContactEmail = d.Get("contact_email").(strfmt.Email)
+		contactEmail := strfmt.Email(d.Get("contact_email").(string))
+		params.Data.ContactEmail = contactEmail
 	}
 
 	if d.HasChange("comments") {

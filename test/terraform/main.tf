@@ -44,7 +44,7 @@ resource "netbox_dcim_site" "example" {
   longitude = "11.600000"
   contact_name = "John doe"
   contact_phone = "+33 7 45 81 81 93"
-  #contact_email = "john.doe@gmail.com" # not working
+  contact_email = "john.doe@gmail.com" # not working
   comments = "this is a comment"
   tags  {
     name = netbox_tag.tag-one.name
