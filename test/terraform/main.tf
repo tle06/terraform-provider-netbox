@@ -104,7 +104,7 @@ resource "netbox_dcim_interface" "example" {
   device_id = netbox_dcim_device.example.id
   type = "virtual"
   name = "test interface"
-  tagged_vlan = [64]
+  tagged_vlan = [82]
   connection_status = true
   enabled = true
   management_only = true
@@ -112,7 +112,7 @@ resource "netbox_dcim_interface" "example" {
   mac_address = "00:00:00:00:00:00"
   mode = "access"
   description = "test"
-  untagged_vlan_id = 64
+  untagged_vlan_id = 82
   mtu = 1000
   tags {
     name = netbox_tag.tag-two.name
@@ -136,3 +136,10 @@ resource "netbox_dcim_interface" "example" {
 #   # custom_fields
 
 # }
+
+resource "netbox_dcim_region" "example" {
+  name = "terarform region"
+  slug = "terarform-region"
+  parent_id = 4
+  description = "description for terraform"
+}
