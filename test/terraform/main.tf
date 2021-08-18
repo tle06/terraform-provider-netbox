@@ -157,3 +157,20 @@ resource "netbox_ipam_vlan" "example" {
     slug = netbox_tag.tag-two.slug
   }
 }
+
+
+resource "netbox_ipam_ipaddress" "example" {
+  address = "10.0.0.1/16"
+  nat_outside_id = 1
+  # description
+  # tenant_id
+  # status
+  # role
+  # vrf_id
+  # assigned_object_id
+  # assigned_object_type
+  # dns_name
+  # nat_inside_id
+  # tags
+  # custom_fields
+}
