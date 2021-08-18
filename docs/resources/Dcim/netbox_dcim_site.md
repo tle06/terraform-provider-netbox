@@ -5,13 +5,13 @@ Creates a site.
 ## Example Usage
 
 ```hcl
-resource "netbox_tag" "tag-one" {
+resource "netbox_extras_tag" "tag-one" {
   name  = "tag one"
   slug  = "tag-one"
   color = "ff0000"
 }
 
-resource "netbox_tag" "tag-two" {
+resource "netbox_extras_tag" "tag-two" {
   name  = "tag two"
   slug  = "tag-two"
   color = "ff0000"
@@ -22,13 +22,13 @@ resource "netbox_dcim_site" "example" {
   slug = "example"
   
   tags  {
-    name = netbox_tag.tag-one.name
-    slug = netbox_tag.tage-one.slug
+    name = netbox_extras_tag.tag-one.name
+    slug = netbox_extras_tag.tage-one.slug
     }
 
   tags {
-    name = netbox_tag.tag-tow.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-tow.name
+    slug = netbox_extras_tag.tag-two.slug
     }
 
   custom_fields = {
@@ -71,8 +71,8 @@ resource "netbox_dcim_site" "example" {
 * `tags` - (Optional) List of tags to assign to the Site. Each tag need to be input in a tags block and refering a resources previously created.
   ```
     tags {
-      name = netbox_tag.example2.name
-      slug = netbox_tag.example2.slug
+      name = netbox_extras_tag.example2.name
+      slug = netbox_extras_tag.example2.slug
     }
   ```
 

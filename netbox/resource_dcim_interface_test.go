@@ -100,7 +100,7 @@ func testAccCheckDcimInterfaceExists(n string) resource.TestCheckFunc {
 func testAccCheckDcimInterfaceConfigBasic(name string) string {
 	return fmt.Sprintf(`
 
-resource "netbox_tag" "test-interface" {
+resource "netbox_extras_tag" "test-interface" {
 	name = "Test Interface"
 	slug = "test-interface"
   }

@@ -100,7 +100,7 @@ func testAccCheckDcimDeviceExists(n string) resource.TestCheckFunc {
 
 func testAccCheckDcimDeviceConfigBasic(device_type_id string, device_role_id string) string {
 	return fmt.Sprintf(`
-resource "netbox_tag" "test-device" {
+resource "netbox_extras_tag" "test-device" {
   name = "Test Device"
   slug = "test-device"
 }
@@ -131,8 +131,8 @@ resource "netbox_dcim_device" "test" {
 
 
 	tags {
-		name = netbox_tag.test-device.name
-		slug = netbox_tag.test-device.slug
+		name = netbox_extras_tag.test-device.name
+		slug = netbox_extras_tag.test-device.slug
 	}
 	custom_fields = {
 		deviceCsutomField = "deviceCustomFieldValue"

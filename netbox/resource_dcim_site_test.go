@@ -100,7 +100,7 @@ func testAccCheckDcimSiteExists(n string) resource.TestCheckFunc {
 
 func testAccCheckDcimSiteConfigBasic(name string, slug string) string {
 	return fmt.Sprintf(`
-resource "netbox_tag" "test" {
+resource "netbox_extras_tag" "test" {
   name = "Test"
   slug = "test"
 }
@@ -124,8 +124,8 @@ resource "netbox_dcim_site" "test" {
 		tf-test = "customField"
 	  }
 	tags  {
-	  name = netbox_tag.test.name
-	  slug = netbox_tag.test.slug
+	  name = netbox_extras_tag.test.name
+	  slug = netbox_extras_tag.test.slug
 	}
   }
 `, name, slug)
