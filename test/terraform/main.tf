@@ -185,6 +185,21 @@ resource "netbox_dcim_interface" "example" {
 
 # }
 
+
+resource "netbox_ipam_vrf" "example" {
+  name = "terraform vrf"
+  # description = "test description"
+  # tenant_id = netbox_tenancy_tenant.example.id
+  # enforce_unique = false
+  # rd = "64512:900:192.168"
+  # custom_fields = {}
+  # tags {
+  #   name = netbox_tag.tag-two.name
+  #   slug = netbox_tag.tag-two.slug
+  # }
+
+}
+
 resource "netbox_ipam_ipaddress" "example" {
   address = "10.0.0.1/16"
   
@@ -192,7 +207,7 @@ resource "netbox_ipam_ipaddress" "example" {
   tenant_id = netbox_tenancy_tenant.example.id
   status = "reserved"
   role = "vip"
-  vrf_id = 1
+  vrf_id = netbox_ipam_vrf.example.id
   # nat_outside_id = 64
   # assigned_object_id
   # assigned_object_type
@@ -206,3 +221,5 @@ resource "netbox_ipam_ipaddress" "example" {
   #   ipAddressCustomField = "ipAddressCustomFieldValue"
   # }
 }
+
+

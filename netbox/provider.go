@@ -52,6 +52,7 @@ func Provider() *schema.Provider {
 			"netbox_ipam_vlan":             resourceIpamVlan(),
 			"netbox_ipam_ipaddress":        resourceIpamIPAddress(),
 			"netbox_tenancy_tenant":        resourceTenancyTenant(),
+			"netbox_ipam_vrf":              resourceIpamVRF(),
 		},
 
 		ConfigureContextFunc: providerConfigure,
