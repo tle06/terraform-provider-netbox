@@ -49,6 +49,7 @@ func Provider() *schema.Provider {
 			"netbox_circuits_circuit":      resourceCircuitsCircuit(),
 			"netbox_dcim_interface":        resourceDcimInterface(),
 			"netbox_dcim_region":           resourceDcimRegion(),
+			"netbox_ipam_vlan":             resourceIpamVlan(),
 		},
 
 		ConfigureContextFunc: providerConfigure,
