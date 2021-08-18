@@ -143,3 +143,17 @@ resource "netbox_dcim_region" "example" {
   parent_id = 4
   description = "description for terraform"
 }
+
+resource "netbox_ipam_vlan" "example" {
+  name = "test terraform"
+	vid = 300
+	site_id = netbox_dcim_site.example.id
+	tenant_id = 6
+	status = "reserved"
+	role_id = 1
+  description = "test terraform"
+  tags {
+    name = netbox_tag.tag-two.name
+    slug = netbox_tag.tag-two.slug
+  }
+}
