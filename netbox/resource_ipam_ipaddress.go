@@ -28,7 +28,7 @@ func resourceIpamIPAddress() *schema.Resource {
 
 			"nat_outside_id": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Optional: true,
 			},
 
 			"description": {
@@ -230,7 +230,10 @@ func resourceIpamIPAddressRead(ctx context.Context, d *schema.ResourceData, m in
 	}
 
 	d.Set("address", resp.Payload.Address)
-	d.Set("nat_outside_id", resp.Payload.NatOutside.ID)
+
+	if resp.Payload.NatOutside != nil {
+		d.Set("nat_outside_id", resp.Payload.NatOutside.ID)
+	}
 
 	if resp.Payload.Description != "" {
 		d.Set("description", resp.Payload.Description)
@@ -280,7 +283,6 @@ func resourceIpamIPAddressUpdate(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	address := d.Get("address").(string)
-	nat_outside_id := int64(d.Get("nat_outside_id").(int))
 
 	params := &ipam.IpamIPAddressesPartialUpdateParams{
 		Context: ctx,
@@ -288,8 +290,12 @@ func resourceIpamIPAddressUpdate(ctx context.Context, d *schema.ResourceData, m 
 	}
 
 	params.Data = &models.WritableIPAddress{
-		Address:    &address,
-		NatOutside: &nat_outside_id,
+		Address: &address,
+	}
+
+	if d.HasChange("nat_outside_id") {
+		natOutside := int64(d.Get("nat_outside_id").(int))
+		params.Data.NatOutside = &natOutside
 	}
 
 	if d.HasChange("description") {

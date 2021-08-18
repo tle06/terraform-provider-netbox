@@ -187,7 +187,7 @@ resource "netbox_dcim_interface" "example" {
 
 resource "netbox_ipam_ipaddress" "example" {
   address = "10.0.0.1/16"
-  nat_outside_id = 1
+  # nat_outside_id = 64
   # description
   # tenant_id
   # status
