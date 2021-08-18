@@ -5,7 +5,7 @@ Creates an interface on a device.
 ## Example Usage
 
 ```hcl
-resource "netbox_tag" "tag-one" {
+resource "netbox_extras_tag" "tag-one" {
   name  = "tag one"
   slug  = "tag-one"
   color = "ff0000"
@@ -30,8 +30,8 @@ resource "netbox_dcim_interface" "example" {
   tagged_vlan = [64]
   
   tags {
-    name = netbox_tag.tag-one.name
-    slug = netbox_tag.tag-one.slug
+    name = netbox_extras_tag.tag-one.name
+    slug = netbox_extras_tag.tag-one.slug
   }
 }
 ```
@@ -67,8 +67,8 @@ resource "netbox_dcim_interface" "example" {
 * `tags` - (Optional) List of tags to assign to the interface. Each tag need to be input in a tags block and refering a resources previously created.
   ```
     tags {
-      name = netbox_tag.example2.name
-      slug = netbox_tag.example2.slug
+      name = netbox_extras_tag.example2.name
+      slug = netbox_extras_tag.example2.slug
     }
   ```
 

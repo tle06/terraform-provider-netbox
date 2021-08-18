@@ -42,7 +42,7 @@ func Provider() *schema.Provider {
 			"netbox_ipam_available_prefix": resourceIpamAvailablePrefix(),
 			"netbox_ipam_prefix":           resourceIpamPrefix(),
 			"netbox_ipam_rir":              resourceIpamRir(),
-			"netbox_tag":                   resourceTag(),
+			"netbox_extras_tag":            resourceExtrasTag(),
 			"netbox_dcim_site":             resourceDcimSite(),
 			"netbox_dcim_rack":             resourceDcimRack(),
 			"netbox_dcim_device":           resourceDcimDevices(),
