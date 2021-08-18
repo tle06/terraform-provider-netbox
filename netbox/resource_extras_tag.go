@@ -13,12 +13,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resourceTag() *schema.Resource {
+func resourceExtrasTag() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: resourceTagCreate,
-		ReadContext:   resourceTagRead,
-		UpdateContext: resourceTagUpdate,
-		DeleteContext: resourceTagDelete,
+		CreateContext: resourceExtrasTagCreate,
+		ReadContext:   resourceExtrasTagRead,
+		UpdateContext: resourceExtrasTagUpdate,
+		DeleteContext: resourceExtrasTagDelete,
 
 		Schema: map[string]*schema.Schema{
 			"name": {
@@ -46,7 +46,7 @@ func resourceTag() *schema.Resource {
 	}
 }
 
-func resourceTagCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceExtrasTagCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
@@ -78,12 +78,12 @@ func resourceTagCreate(ctx context.Context, d *schema.ResourceData, m interface{
 
 	d.SetId(strconv.FormatInt(resp.Payload.ID, 10))
 
-	resourceTagRead(ctx, d, m)
+	resourceExtrasTagRead(ctx, d, m)
 
 	return diags
 }
 
-func resourceTagRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceExtrasTagRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics
@@ -116,7 +116,7 @@ func resourceTagRead(ctx context.Context, d *schema.ResourceData, m interface{})
 	return diags
 }
 
-func resourceTagUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceExtrasTagUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
 	id, err := strconv.ParseInt(d.Id(), 10, 64)
@@ -150,10 +150,10 @@ func resourceTagUpdate(ctx context.Context, d *schema.ResourceData, m interface{
 		return diag.Errorf("Unable to update tag: %v", err)
 	}
 
-	return resourceTagRead(ctx, d, m)
+	return resourceExtrasTagRead(ctx, d, m)
 }
 
-func resourceTagDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceExtrasTagDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
 	var diags diag.Diagnostics

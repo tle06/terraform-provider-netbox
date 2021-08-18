@@ -40,14 +40,14 @@ func testAccCheckDcimSiteDestroy(s *terraform.State) error {
 			continue
 		}
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimSitesReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Dcim.DcimSitesRead(params, nil)
@@ -79,14 +79,14 @@ func testAccCheckDcimSiteExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		siteID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimSitesReadParams{
 			Context: context.Background(),
-			ID:      siteID,
+			ID:      objectID,
 		}
 
 		_, err = c.Dcim.DcimSitesRead(params, nil)
@@ -100,7 +100,7 @@ func testAccCheckDcimSiteExists(n string) resource.TestCheckFunc {
 
 func testAccCheckDcimSiteConfigBasic(name string, slug string) string {
 	return fmt.Sprintf(`
-resource "netbox_tag" "test" {
+resource "netbox_extras_tag" "test" {
   name = "Test"
   slug = "test"
 }
@@ -124,8 +124,8 @@ resource "netbox_dcim_site" "test" {
 		tf-test = "customField"
 	  }
 	tags  {
-	  name = netbox_tag.test.name
-	  slug = netbox_tag.test.slug
+	  name = netbox_extras_tag.test.name
+	  slug = netbox_extras_tag.test.slug
 	}
   }
 `, name, slug)

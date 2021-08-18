@@ -77,14 +77,14 @@ func resourceIpamAggregateRead(ctx context.Context, d *schema.ResourceData, m in
 
 	var diags diag.Diagnostics
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamAggregatesReadParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Ipam.IpamAggregatesRead(params, nil)
@@ -106,7 +106,7 @@ func resourceIpamAggregateRead(ctx context.Context, d *schema.ResourceData, m in
 func resourceIpamAggregateUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -115,7 +115,7 @@ func resourceIpamAggregateUpdate(ctx context.Context, d *schema.ResourceData, m 
 
 	params := &ipam.IpamAggregatesPartialUpdateParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritableAggregate{
@@ -135,14 +135,14 @@ func resourceIpamAggregateDelete(ctx context.Context, d *schema.ResourceData, m 
 
 	var diags diag.Diagnostics
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamAggregatesDeleteParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	_, err = c.Ipam.IpamAggregatesDelete(params, nil)

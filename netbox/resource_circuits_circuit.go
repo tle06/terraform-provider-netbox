@@ -188,14 +188,14 @@ func resourceCircuitsCircuitRead(ctx context.Context, d *schema.ResourceData, m 
 
 	var diags diag.Diagnostics
 
-	circuitID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &circuits.CircuitsCircuitsReadParams{
 		Context: ctx,
-		ID:      circuitID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Circuits.CircuitsCircuitsRead(params, nil)
@@ -243,7 +243,7 @@ func resourceCircuitsCircuitRead(ctx context.Context, d *schema.ResourceData, m 
 func resourceCircuitsCircuitUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	circuitID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -254,7 +254,7 @@ func resourceCircuitsCircuitUpdate(ctx context.Context, d *schema.ResourceData, 
 
 	params := &circuits.CircuitsCircuitsPartialUpdateParams{
 		Context: ctx,
-		ID:      circuitID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritableCircuit{
@@ -314,14 +314,14 @@ func resourceCircuitsCircuitDelete(ctx context.Context, d *schema.ResourceData, 
 
 	var diags diag.Diagnostics
 
-	circuitID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &circuits.CircuitsCircuitsDeleteParams{
 		Context: ctx,
-		ID:      circuitID,
+		ID:      objectID,
 	}
 
 	_, err = c.Circuits.CircuitsCircuitsDelete(params, nil)

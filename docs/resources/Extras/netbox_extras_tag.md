@@ -1,11 +1,11 @@
-# netbox_tag Resource
+# netbox_extras_tag Resource
 
 Creates a tag.
 
 ## Example Usage
 
 ```hcl
-resource "netbox_tag" "example" {
+resource "netbox_extras_tag" "example" {
   name  = "Example"
   slug  = "example"
   color = "ff0000"

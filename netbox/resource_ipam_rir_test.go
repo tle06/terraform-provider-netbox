@@ -37,14 +37,14 @@ func testAccCheckIpamRirDestroy(s *terraform.State) error {
 			continue
 		}
 
-		rirID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamRirsReadParams{
 			Context: context.Background(),
-			ID:      rirID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Ipam.IpamRirsRead(params, nil)
@@ -76,14 +76,14 @@ func testAccCheckIpamRirExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		rirID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamRirsReadParams{
 			Context: context.Background(),
-			ID:      rirID,
+			ID:      objectID,
 		}
 
 		_, err = c.Ipam.IpamRirsRead(params, nil)

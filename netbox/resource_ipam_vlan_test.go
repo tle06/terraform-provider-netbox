@@ -40,14 +40,14 @@ func testAccCheckIpamVlanDestroy(s *terraform.State) error {
 			continue
 		}
 
-		vlanID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamVlansReadParams{
 			Context: context.Background(),
-			ID:      vlanID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Ipam.IpamVlansRead(params, nil)
@@ -79,14 +79,14 @@ func testAccCheckIpamVlanExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &ipam.IpamVlansReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      objectID,
 		}
 
 		_, err = c.Ipam.IpamVlansRead(params, nil)

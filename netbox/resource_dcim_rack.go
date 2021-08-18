@@ -271,14 +271,14 @@ func resourceDcimRackRead(ctx context.Context, d *schema.ResourceData, m interfa
 
 	var diags diag.Diagnostics
 
-	rackID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimRacksReadParams{
 		Context: ctx,
-		ID:      rackID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Dcim.DcimRacksRead(params, nil)
@@ -353,7 +353,7 @@ func resourceDcimRackRead(ctx context.Context, d *schema.ResourceData, m interfa
 func resourceDcimRackUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c := m.(*client.NetBoxAPI)
 
-	rackID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
@@ -363,7 +363,7 @@ func resourceDcimRackUpdate(ctx context.Context, d *schema.ResourceData, m inter
 
 	params := &dcim.DcimRacksPartialUpdateParams{
 		Context: ctx,
-		ID:      rackID,
+		ID:      objectID,
 	}
 
 	params.Data = &models.WritableRack{
@@ -460,14 +460,14 @@ func resourceDcimRackDelete(ctx context.Context, d *schema.ResourceData, m inter
 
 	var diags diag.Diagnostics
 
-	rackID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &dcim.DcimRacksDeleteParams{
 		Context: ctx,
-		ID:      rackID,
+		ID:      objectID,
 	}
 
 	_, err = c.Dcim.DcimRacksDelete(params, nil)

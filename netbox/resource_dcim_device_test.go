@@ -40,14 +40,14 @@ func testAccCheckDcimDeviceDestroy(s *terraform.State) error {
 			continue
 		}
 
-		deviceID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimDevicesReadParams{
 			Context: context.Background(),
-			ID:      deviceID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Dcim.DcimDevicesRead(params, nil)
@@ -79,14 +79,14 @@ func testAccCheckDcimDeviceExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		deviceID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimDevicesReadParams{
 			Context: context.Background(),
-			ID:      deviceID,
+			ID:      objectID,
 		}
 
 		_, err = c.Dcim.DcimDevicesRead(params, nil)
@@ -100,7 +100,7 @@ func testAccCheckDcimDeviceExists(n string) resource.TestCheckFunc {
 
 func testAccCheckDcimDeviceConfigBasic(device_type_id string, device_role_id string) string {
 	return fmt.Sprintf(`
-resource "netbox_tag" "test-device" {
+resource "netbox_extras_tag" "test-device" {
   name = "Test Device"
   slug = "test-device"
 }
@@ -131,8 +131,8 @@ resource "netbox_dcim_device" "test" {
 
 
 	tags {
-		name = netbox_tag.test-device.name
-		slug = netbox_tag.test-device.slug
+		name = netbox_extras_tag.test-device.name
+		slug = netbox_extras_tag.test-device.slug
 	}
 	custom_fields = {
 		deviceCsutomField = "deviceCustomFieldValue"

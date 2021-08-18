@@ -13,27 +13,27 @@ import (
 	"github.com/netbox-community/go-netbox/netbox/client/extras"
 )
 
-func TestAccTag_basic(t *testing.T) {
+func TestAccExtrasTag_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
 		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckTagDestroy,
+		CheckDestroy: testAccCheckExtrasTagDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccCheckTagConfigBasic(),
+				Config: testAccCheckExtrasTagConfigBasic(),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckTagExists("netbox_tag.test"),
+					testAccCheckExtrasTagExists("netbox_extras_tag.test"),
 				),
 			},
 		},
 	})
 }
 
-func testAccCheckTagDestroy(s *terraform.State) error {
+func testAccCheckExtrasTagDestroy(s *terraform.State) error {
 	c := testAccProvider.Meta().(*client.NetBoxAPI)
 
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "netbox_tag" {
+		if rs.Type != "netbox_extras_tag" {
 			continue
 		}
 
@@ -62,7 +62,7 @@ func testAccCheckTagDestroy(s *terraform.State) error {
 	return nil
 }
 
-func testAccCheckTagExists(n string) resource.TestCheckFunc {
+func testAccCheckExtrasTagExists(n string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[n]
 
@@ -95,9 +95,9 @@ func testAccCheckTagExists(n string) resource.TestCheckFunc {
 	}
 }
 
-func testAccCheckTagConfigBasic() string {
+func testAccCheckExtrasTagConfigBasic() string {
 	return `
-resource "netbox_tag" "test" {
+resource "netbox_extras_tag" "test" {
   name        = "Test"
   slug        = "test"
   color       = "ff0000"

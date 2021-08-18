@@ -32,8 +32,8 @@ resource "netbox_circuits_provider" "example" {
 * `tags` - (Optional) List of tags to assign to the provider. Each tag need to be input in a tags block and refering a resources previously created.
   ```
     tags {
-      name = netbox_tag.example2.name
-      slug = netbox_tag.example2.slug
+      name = netbox_extras_tag.example2.name
+      slug = netbox_extras_tag.example2.slug
     }
   ```
 

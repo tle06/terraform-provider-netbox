@@ -1,10 +1,10 @@
-resource "netbox_tag" "tag-one" {
+resource "netbox_extras_tag" "tag-one" {
   name  = "tag one"
   slug  = "tag-one"
   color = "ff0000"
 }
 
-resource "netbox_tag" "tag-two" {
+resource "netbox_extras_tag" "tag-two" {
   name  = "tag two"
   slug  = "tag-two"
   color = "ff0000"
@@ -44,15 +44,15 @@ resource "netbox_dcim_site" "example" {
   longitude = "11.600000"
   contact_name = "John doe"
   contact_phone = "+33 7 45 81 81 93"
-  #contact_email = "john.doe@gmail.com" # not working
+  contact_email = "john.doe@gmail.com" # not working
   comments = "this is a comment"
   tags  {
-    name = netbox_tag.tag-one.name
-    slug = netbox_tag.tag-one.slug
+    name = netbox_extras_tag.tag-one.name
+    slug = netbox_extras_tag.tag-one.slug
     }
   tags {
-    name = netbox_tag.tag-two.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-two.name
+    slug = netbox_extras_tag.tag-two.slug
     }
     
 }
@@ -65,7 +65,7 @@ resource "netbox_dcim_rack" "example" {
   status = "available" 
   role_id = 2
   serial = "test serial" 
-  asset_tag = netbox_tag.tag-one.name
+  asset_tag = netbox_extras_tag.tag-one.name
   type = "2-post-frame"
   width = 23
   u_height = 15
@@ -75,13 +75,13 @@ resource "netbox_dcim_rack" "example" {
   outer_unit = "mm"
   comments = "new comment"
   tags {
-    name = netbox_tag.tag-one.name
-    slug = netbox_tag.tag-one.slug
+    name = netbox_extras_tag.tag-one.name
+    slug = netbox_extras_tag.tag-one.slug
   }
 
   tags {
-    name = netbox_tag.tag-two.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-two.name
+    slug = netbox_extras_tag.tag-two.slug
   }
 
 }
@@ -101,7 +101,7 @@ resource "netbox_dcim_device" "example" {
   tenant_id = netbox_tenancy_tenant.example.id
   comments = "my comment"
   status = "active"
-  asset_tag = netbox_tag.tag-one.name
+  asset_tag = netbox_extras_tag.tag-one.name
   cluster_id = 9
   serial = "test serial"
   face = "front"
@@ -110,8 +110,8 @@ resource "netbox_dcim_device" "example" {
   position_id = 1
   rack_id = netbox_dcim_rack.example.id
   tags {
-    name = netbox_tag.tag-two.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-two.name
+    slug = netbox_extras_tag.tag-two.slug
   }
 
 }
@@ -126,8 +126,8 @@ resource "netbox_ipam_vlan" "tagged-vlan" {
 	role_id = 1
   description = "test terraform"
   tags {
-    name = netbox_tag.tag-two.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-two.name
+    slug = netbox_extras_tag.tag-two.slug
   }
 }
 
@@ -140,8 +140,8 @@ resource "netbox_ipam_vlan" "untagged-vlan" {
 	role_id = 1
   description = "test terraform"
   tags {
-    name = netbox_tag.tag-two.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-two.name
+    slug = netbox_extras_tag.tag-two.slug
   }
 }
 
@@ -163,8 +163,8 @@ resource "netbox_dcim_interface" "example" {
   untagged_vlan_id = netbox_ipam_vlan.untagged-vlan.id
   mtu = 1000
   tags {
-    name = netbox_tag.tag-two.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-two.name
+    slug = netbox_extras_tag.tag-two.slug
   }
 }
 
@@ -194,8 +194,8 @@ resource "netbox_ipam_vrf" "example" {
   # rd = "64512:900:192.168"
   # custom_fields = {}
   # tags {
-  #   name = netbox_tag.tag-two.name
-  #   slug = netbox_tag.tag-two.slug
+  #   name = netbox_extras_tag.tag-two.name
+  #   slug = netbox_extras_tag.tag-two.slug
   # }
 
 }
@@ -214,8 +214,8 @@ resource "netbox_ipam_ipaddress" "example" {
   dns_name = "test.example.com"
   # nat_inside_id
   tags {
-    name = netbox_tag.tag-two.name
-    slug = netbox_tag.tag-two.slug
+    name = netbox_extras_tag.tag-two.name
+    slug = netbox_extras_tag.tag-two.slug
   }
   # custom_fields = {
   #   ipAddressCustomField = "ipAddressCustomFieldValue"
@@ -233,8 +233,8 @@ resource "netbox_circuits_provider" "example" {
   # noc_contact = "john doe 2"
   # portal_url = "https://demo.netbox.dev"
   # tags {
-  #   name = netbox_tag.tag-two.name
-  #   slug = netbox_tag.tag-two.slug
+  #   name = netbox_extras_tag.tag-two.name
+  #   slug = netbox_extras_tag.tag-two.slug
   # }
   # custom_fields = {
   #   customFieldProvider ="customFieldProviderValue"

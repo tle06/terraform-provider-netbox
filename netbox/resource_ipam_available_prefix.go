@@ -77,14 +77,14 @@ func resourceIpamAvailablePrefixRead(ctx context.Context, d *schema.ResourceData
 
 	var diags diag.Diagnostics
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamPrefixesReadParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	resp, err := c.Ipam.IpamPrefixesRead(params, nil)
@@ -108,14 +108,14 @@ func resourceIpamAvailablePrefixDelete(ctx context.Context, d *schema.ResourceDa
 
 	var diags diag.Diagnostics
 
-	prefixID, err := strconv.ParseInt(d.Id(), 10, 64)
+	objectID, err := strconv.ParseInt(d.Id(), 10, 64)
 	if err != nil {
 		return diag.Errorf("Unable to parse ID: %v", err)
 	}
 
 	params := &ipam.IpamPrefixesDeleteParams{
 		Context: ctx,
-		ID:      prefixID,
+		ID:      objectID,
 	}
 
 	_, err = c.Ipam.IpamPrefixesDelete(params, nil)

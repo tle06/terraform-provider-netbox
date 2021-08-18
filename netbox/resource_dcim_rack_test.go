@@ -40,14 +40,14 @@ func testAccCheckDcimRackDestroy(s *terraform.State) error {
 			continue
 		}
 
-		prefixID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimRacksReadParams{
 			Context: context.Background(),
-			ID:      prefixID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Dcim.DcimRacksRead(params, nil)
@@ -79,14 +79,14 @@ func testAccCheckDcimRackExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		rackID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &dcim.DcimRacksReadParams{
 			Context: context.Background(),
-			ID:      rackID,
+			ID:      objectID,
 		}
 
 		_, err = c.Dcim.DcimRacksRead(params, nil)
@@ -100,7 +100,7 @@ func testAccCheckDcimRackExists(n string) resource.TestCheckFunc {
 
 func testAccCheckDcimRackConfigBasic(name string, site_id string) string {
 	return fmt.Sprintf(`
-resource "netbox_tag" "test" {
+resource "netbox_extras_tag" "test" {
   name = "Test"
   slug = "test"
 }
@@ -113,7 +113,7 @@ resource "netbox_dcim_rack" "test" {
 	status = "available" 
 	role_id = 2
 	serial = "test serial" 
-	asset_tag = netbox_tag.test.name
+	asset_tag = netbox_extras_tag.test.name
 	type = "2-post-frame"
 	width = 23
 	u_height = 15
@@ -124,8 +124,8 @@ resource "netbox_dcim_rack" "test" {
 	comments = "new comment"
 	
 	tags {
-	  name = netbox_tag.test.name
-	  slug = netbox_tag.test.slug
+	  name = netbox_extras_tag.test.name
+	  slug = netbox_extras_tag.test.slug
 	}
 
 	custom_fields = {

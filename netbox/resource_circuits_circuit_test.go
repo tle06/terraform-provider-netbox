@@ -41,14 +41,14 @@ func testAccCheckCircuitsCircuitDestroy(s *terraform.State) error {
 			continue
 		}
 
-		circuitID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &circuits.CircuitsCircuitsReadParams{
 			Context: context.Background(),
-			ID:      circuitID,
+			ID:      objectID,
 		}
 
 		resp, err := c.Circuits.CircuitsCircuitsRead(params, nil)
@@ -80,14 +80,14 @@ func testAccCheckCircuitsCircuitExists(n string) resource.TestCheckFunc {
 
 		c := testAccProvider.Meta().(*client.NetBoxAPI)
 
-		circuitID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
+		objectID, err := strconv.ParseInt(rs.Primary.ID, 10, 64)
 		if err != nil {
 			return err
 		}
 
 		params := &circuits.CircuitsCircuitsReadParams{
 			Context: context.Background(),
-			ID:      circuitID,
+			ID:      objectID,
 		}
 
 		_, err = c.Circuits.CircuitsCircuitsRead(params, nil)
