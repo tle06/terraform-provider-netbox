@@ -22,6 +22,8 @@ resource "netbox_tenancy_tenant" "example" {
 
 * `description` - (Optional) The description to add.
   
+* `comments` - (Optional) The comment to add.
+  
 * `tags` - (Optional) List of tags to assign to the Tenant. Each tag need to be input in a tags block and refering a resources previously created.
   ```
     tags {
